@@ -17,7 +17,7 @@ console.log(`[Rollup] - isProduction: ${isProduction}`)
 console.log(`[Rollup] - version: ${process.env.VER}`)
 
 export default [
-  t statu{
+  {
     input: 'src/index.ts',
     output: [
       {
