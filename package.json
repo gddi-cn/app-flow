@@ -1,19 +1,19 @@
 {
-  "name": "roi-painter",
+  "name": "app-flow",
   "version": "0.0.1",
   "description": "A React component to visualize GDDi's AI Apps in a flow chart fashion",
-  "homepage": "https://gddi-cn.github.io/gddi-app-canvas/",
+  "homepage": "https://gddi-cn.github.io/app-flow/",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "./dist"
   ],
-  "author": "daisy.pang",
+  "author": "amaneru",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gddi-cn/gddi-app-canvas"
+    "url": "https://github.com/gddi-cn/app-flow"
   },
   "private": false,
   "devDependencies": {
@@ -82,10 +82,10 @@
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "build": "rollup --environment NODE_ENV:production -c",
-    "sb": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
+    "sb": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "serve-storybook": "npx http-server ./storybook-static",
-    "deploy-storybook": "storybook-to-ghpages --out=.out --remote=github-origin --source-branch=main",
+    "deploy-storybook": "storybook-to-ghpages --out=.out --remote=origin --source-branch=main",
     "publish-npm": "yarn publish --registry https://registry.npmjs.org"
   },
   "storybook-deployer": {

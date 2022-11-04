@@ -1,4 +1,4 @@
-import { FetchModelRes } from '../../AppCanvas'
+import { FetchModelRes } from '../../AppFlow'
 
 const labels1 = ['cat', 'dog', 'panda', 'horse']
 const labels2 = [

@@ -7,16 +7,16 @@ import {
   ModelListFetcher,
   ROIImgFetcher
 } from './types'
-import { AppCanvasChild } from './AppCanvasChild'
+import { AppFlowChild } from './AppFlowChild'
 import { ColorModeContext } from './context'
 import { getDesignTokens } from './theme'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { Lang } from './types/dictionary'
 
-// import './AppCanvas.scss'
+// import './AppFlow.scss'
 
-export interface AppCanvasProps {
+export interface AppFlowProps {
   /**
    * UI Language
    * cn by default
@@ -43,11 +43,11 @@ export interface AppCanvasProps {
    */
   layoutVertically?: boolean
   /**
-   * Callback when the AppCanvas get loaded
+   * Callback when the AppFlow get loaded
    */
   onLoad?: (app: AIAppType) => void
   /**
-   * Callback when the content (value) of the AppCanvas changed
+   * Callback when the content (value) of the AppFlow changed
    */
   onValueChange?: (newValue: Pipeline) => void
   /**
@@ -73,7 +73,7 @@ export interface AppCanvasProps {
 /**
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
-export const AppCanvas = ({
+export const AppFlow = ({
   lang,
   dark,
   hideDarkModeButton,
@@ -86,7 +86,7 @@ export const AppCanvas = ({
   fetchROIImg,
   graphEditingDisabled,
   propEditingDisabled
-}: AppCanvasProps): JSX.Element => {
+}: AppFlowProps): JSX.Element => {
   const [mode, setMode] = useState<'light' | 'dark'>('light')
   const colorMode = useMemo(
     () => ({
@@ -105,7 +105,7 @@ export const AppCanvas = ({
     <Provider createStore={createStore}>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
-          <AppCanvasChild
+          <AppFlowChild
             lang={lang || 'cn'}
             defaultValue={defaultValue}
             hideDarkModeButton={hideDarkModeButton}

@@ -6,14 +6,14 @@ A React component to visualize and edit GDDi's AI APPs.
 ## Installation
 
 ```shell
-yarn add gddi-app-canvas
+yarn add app-flow
 ```
 
 ## Simple Usage
 
 ```tsx
 import {
-  AppCanvas,
+  AppFlow,
   ModuleDefinitions,
   AIAppType,
   Pipeline,
@@ -22,7 +22,7 @@ import {
   FetchLabelRes,
   FetchModelRes,
   FetchROIImgRes
-} from 'gddi-app-canvas'
+} from 'gddi-flow'
 
 const handleAppLoad = useCallback((app: AIAppType) => {
   app.fitView()
@@ -68,7 +68,7 @@ const fetchROIImg = (
 
 ;<div style={{ width: '1000px', height: '800px' }}>
   // width and height of the parent element are required to be set
-  <AppCanvas
+  <AppFlow
     lnag={'en'}
     defaultValue={myPipeline as Pipeline}
     moduleDefinitions={nodeDefinition1 as ModuleDefinitions}
@@ -98,7 +98,7 @@ set prop `dark`
 
 Object to describe the module's input / output endpoints, property, and other metadata.
 
-- Type define can be found in `src/AppCanvas/types.ts`
+- Type define can be found in `src/AppFlow/types.ts`
 - Example can be found in `src/stories/data/`
 
 ```typescript

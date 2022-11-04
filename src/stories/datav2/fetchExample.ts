@@ -1,4 +1,4 @@
-import { FetchLabelRes, FetchModelRes } from '../../AppCanvas'
+import { FetchLabelRes, FetchModelRes } from '../../AppFlow'
 
 export const fetchModelResult: FetchModelRes = {
   models: [

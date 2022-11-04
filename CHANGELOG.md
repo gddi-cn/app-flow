@@ -79,7 +79,7 @@ node过长。model name在cursor hover时用tooltip显示。
 
 ## v2.0.0
 
-- **🚨Breaking Change**: `AppCanvas` 的prop去掉了`fetchLabelList`这个prop; `fetchModelList` 的接口有变化，返回的model element新增了labels, accelerate, best_threshold等。详见typescript definition。
+- **🚨Breaking Change**: `AppFlow` 的prop去掉了`fetchLabelList`这个prop; `fetchModelList` 的接口有变化，返回的model element新增了labels, accelerate, best_threshold等。详见typescript definition。
 
 - 🍗 feature: `ModelDefinition` 文件，新增 `props.label` （optional）, 用来为module prop指定显示名称（例如中文翻译）；参考 `src/stories/datav2/md3.ts`[./src/stories/datav2/md3.ts].
 
@@ -113,7 +113,7 @@ node过长。model name在cursor hover时用tooltip显示。
 
 ## 2.0.8
 
-- 🍗 feature: 横排或竖排布局选择. 通过 `<AppCanvas />` 的属性： `layoutVertically?: boolean` 调整。缺省状态为横排布局
+- 🍗 feature: 横排或竖排布局选择. 通过 `<AppFlow />` 的属性： `layoutVertically?: boolean` 调整。缺省状态为横排布局
 
 ## 2.0.9
 

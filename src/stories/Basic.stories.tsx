@@ -3,8 +3,8 @@ import { Meta } from '@storybook/react/types-6-0'
 import { Story } from '@storybook/react'
 import {
   AIAppType,
-  AppCanvas,
-  AppCanvasProps,
+  AppFlow,
+  AppFlowProps,
   Pipeline,
   Module,
   Connection,
@@ -13,7 +13,7 @@ import {
   ModuleDefinitions,
   getParsedData,
   tModuleDefinitions
-} from '../AppCanvas'
+} from '../AppFlow'
 import { TabPanel } from './components'
 import { md3 } from './datav2/md3'
 import pipeline from './datav2/pipeline5.json'
@@ -33,8 +33,8 @@ const myPipeline: Pipeline = {
 }
 
 export default {
-  title: 'Example/AppCanvas',
-  component: AppCanvas
+  title: 'Example/AppFlow',
+  component: AppFlow
 } as Meta
 
 // Create a master template for mapping args to render the component
@@ -89,7 +89,7 @@ const fetchROIImg = (
   })
 }
 
-const Template: Story<AppCanvasProps> = (args) => {
+const Template: Story<AppFlowProps> = (args) => {
   const [tabVal, setTabVal] = useState<number>(0)
   const [defaultPpVal, setDefaultPpVal] = useState<Pipeline>(myPipeline)
   const [pipelineVal, setPipelineVal] = useState<Pipeline>(myPipeline)
@@ -108,7 +108,7 @@ const Template: Story<AppCanvasProps> = (args) => {
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
       setTabVal(newValue)
-      // when switching tab -- update the default value of the AppCanvas
+      // when switching tab -- update the default value of the AppFlow
       setDefaultPpVal(pipelineVal)
       if (newValue === 1) {
         setSavePipelineErrorMsg(undefined)
@@ -199,7 +199,7 @@ const Template: Story<AppCanvasProps> = (args) => {
           className="app-canvas-wrapper"
           style={{ width: '1000px', height: '500px' }}
         >
-          <AppCanvas
+          <AppFlow
             {...args}
             defaultValue={defaultPpVal}
             moduleDefinitions={modDef}
@@ -278,6 +278,6 @@ BasicUsage.args = {
   onLoad: handleCanvasLoad,
   fetchModelList: fetchModelList,
   fetchROIImg: fetchROIImg
-} as AppCanvasProps
+} as AppFlowProps
 
 BasicUsage.storyName = 'Demo'

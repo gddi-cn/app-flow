@@ -26,19 +26,16 @@ import { rfEdgeTypes } from './RFEdges'
 import { ExtendedControls } from './ExtendedControls'
 import { useStore } from './store/useStore'
 import { ColorModeContext } from './context'
-import { VersionTag } from './Components'
 
 import { useTheme } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 
-import './AppCanvas.scss'
+import './AppFlow.scss'
 import { Lang } from './types/dictionary'
 
-// const version = require('./../../package.json')['version']
-
-export interface AppCanvasChildProps {
+export interface AppFlowChildProps {
   /**
    * UI Language
    * cn by default
@@ -61,11 +58,11 @@ export interface AppCanvasChildProps {
    */
   layoutVertically?: boolean
   /**
-   * Callback when the AppCanvas get loaded
+   * Callback when the AppFlow get loaded
    */
   onLoad?: (app: AIAppType) => void
   /**
-   * Callback when the content (value) of the AppCanvas changed
+   * Callback when the content (value) of the AppFlow changed
    */
   onValueChange?: (newValue: Pipeline) => void
   /**
@@ -92,7 +89,7 @@ export interface AppCanvasChildProps {
 /**
  * React component to visualize GDDi's AI APPs in flow chart fashion.
  */
-export const AppCanvasChild = ({
+export const AppFlowChild = ({
   hideDarkModeButton,
   defaultValue,
   moduleDefinitions,
@@ -104,7 +101,7 @@ export const AppCanvasChild = ({
   graphEditingDisabled,
   propEditingDisabled,
   lang
-}: AppCanvasChildProps): JSX.Element => {
+}: AppFlowChildProps): JSX.Element => {
   const theme = useTheme()
   const colorMode = useContext(ColorModeContext)
   const appRef = useRef<AIAppType | null>(null)
@@ -169,7 +166,6 @@ export const AppCanvasChild = ({
   }, [addModule, addPipeline, layoutGraph, fitView, clear, resetModuleProps])
   const handleLoaded = useCallback(
     (params: ReactFlowInstance<any>) => {
-      // console.log('[gddi-aiappcanvas] loaded')
       params.fitView({ padding: 0.01 })
       loadParaRef.current = params
       setRfInstance(params)
@@ -280,8 +276,6 @@ export const AppCanvasChild = ({
         nodeTypes={rfNodeTypes}
         edgeTypes={rfEdgeTypes}
         onInit={handleLoaded}
-        // snapToGrid
-        // snapGrid={[15, 15]}
         minZoom={0.1}
         nodesDraggable={!graphEditingDisabled}
         nodesConnectable={!graphEditingDisabled}
@@ -307,8 +301,6 @@ export const AppCanvasChild = ({
           onFitView={handleFitView}
         />
         <ExtendedControls />
-        {/* <VersionTag version={process.env.VER ? process.env.VER.toString() : 'undefined'} /> */}
-        {/* <VersionTag version={version} /> */}
       </ReactFlow>
     </ReactFlowProvider>
   )

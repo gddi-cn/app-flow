@@ -48,40 +48,9 @@ export default [
     ]
   },
   {
-    // input: 'dist/esm/types/index.d.ts',
     input: 'dist/cjs/types/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     external: ['react', 'react-dom', 'fabric'],
     plugins: [dts()]
   }
 ]
-
-// export default async () => ({
-//   input: 'src/index.ts',
-//   output: [
-//     {
-//       file: packageJson.main,
-//       format: 'cjs',
-//       sourcemap: true,
-//       name: 'gddi-app-canvas'
-//     },
-//     {
-//       file: packageJson.module,
-//       format: 'esm',
-//       sourcemap: true
-//       //   strict: false
-//     }
-//   ],
-//   external: ['react', 'react-dom', 'fabric'],
-//   plugins: [
-//     peerDepsExternal(),
-//     resolve(),
-//     commonjs(),
-//     typescript({ useTsconfigDeclarationDir: true }),
-//     postcss(),
-//     json({ compact: true }),
-//     isProduction && (await import('rollup-plugin-terser')).terser(),
-//     bundleSize(),
-//     visualizer({ sourcemap: true, open: true })
-//   ]
-// })

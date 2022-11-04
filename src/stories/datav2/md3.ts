@@ -1,4 +1,4 @@
-import { ModuleDefinitions } from './../../AppCanvas'
+import { ModuleDefinitions } from '../../AppFlow'
 
 export const md3: ModuleDefinitions = {
   Demuxer_v2: {

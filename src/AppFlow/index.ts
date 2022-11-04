@@ -1,3 +1,3 @@
 export * from './types'
-export * from './AppCanvas'
+export * from './AppFlow'
 export { getParsedData } from './helpers/utils'

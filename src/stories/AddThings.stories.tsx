@@ -6,15 +6,15 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import {
   AIAppType,
-  AppCanvas,
-  AppCanvasProps,
+  AppFlow,
+  AppFlowProps,
   Pipeline,
   Module,
   Connection,
   FetchLabelRes,
   FetchModelRes,
   FetchROIImgRes
-} from '../AppCanvas'
+} from '../AppFlow'
 import { TabPanel } from './components'
 import modDef from './datav2/md2.json'
 import pipeline from './datav2/pipeline3.json'
@@ -42,8 +42,8 @@ const desString =
   `\n3. Get Current Pipeline Value`
 
 export default {
-  title: 'Example/AppCanvas',
-  component: AppCanvas,
+  title: 'Example/AppFlow',
+  component: AppFlow,
   parameters: {
     docs: {
       source: {
@@ -56,7 +56,7 @@ export default {
   }
 } as Meta
 
-const Template: Story<AppCanvasProps> = (args) => {
+const Template: Story<AppFlowProps> = (args) => {
   const canvasRef = useRef<AIAppType | null>(null)
   const [tabVal, setTabVal] = useState<number>(0)
   const [appVal, setAppVal] = useState<Pipeline>({
@@ -174,7 +174,7 @@ const Template: Story<AppCanvasProps> = (args) => {
 
   const appCanvas = useMemo(() => {
     return (
-      <AppCanvas
+      <AppFlow
         {...args}
         onLoad={handleCanvasLoad}
         onValueChange={handleValueChange}
