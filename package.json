@@ -1,8 +1,8 @@
 {
-  "name": "app-flow",
+  "name": "gddi-app-flow",
   "version": "0.0.2",
   "description": "A React component to visualize GDDi's AI Apps in a flow chart fashion",
-  "homepage": "https://gddi-cn.github.io/app-flow/",
+  "homepage": "https://gddi-cn.github.io/gddi-app-flow/",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gddi-cn/app-flow"
+    "url": "https://github.com/gddi-cn/gddi-app-flow"
   },
   "private": false,
   "devDependencies": {

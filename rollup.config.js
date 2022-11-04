@@ -17,21 +17,21 @@ console.log(`[Rollup] - isProduction: ${isProduction}`)
 console.log(`[Rollup] - version: ${process.env.VER}`)
 
 export default [
-  {
+  t statu{
     input: 'src/index.ts',
     output: [
       {
         file: packageJson.main,
         format: 'cjs',
         sourcemap: true,
-        name: 'gddi-app-canvas'
+        name: 'gddi-app-flow'
       },
       {
         // if in package.json -- "module": "dist/esm/index.js",
         file: packageJson.module,
         format: 'esm',
         sourcemap: true,
-        name: 'gddi-app-canvas'
+        name: 'gddi-app-flow'
       }
     ],
     external: ['react', 'react-dom', 'fabric', 'react/jsx-runtime'],
