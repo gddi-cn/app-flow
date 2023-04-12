@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import shallow from 'zustand/shallow'
 import { useStore } from '../store/useStore'
-import { DrawROI, DrawPolygonControl } from 'react-draw-roi'
+import { DrawROI, DrawPolygonControl } from '../Components/draw-roi'
 import { ImgSourceLocal } from './ImgSourceLocal'
 import './ROIEditContent.scss'
 
