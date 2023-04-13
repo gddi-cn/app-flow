@@ -19,7 +19,9 @@ export function ROIsToPolygons(
       points: ROI.map((pt) => ({
         x: pt[0] * imgWidth,
         y: pt[1] * imgHeight
-      }))
+      })),
+      // ray only has two point
+      isRay: ROI.length === 2
     }
     polys.push(newPoly)
   })

@@ -4,6 +4,8 @@ import { Point } from '../../types'
 export type MyPolygonOption = {
   id: number
   points: Point[]
+  // judge is ray or not
+  isRay?: boolean
 }
 
 const defaultOption: fabric.IPolylineOptions = {
@@ -16,14 +18,25 @@ const defaultOption: fabric.IPolylineOptions = {
   transparentCorners: false
 }
 
+const defaultOptionForRay: fabric.IPolylineOptions = {
+  stroke: '#f44336',
+  strokeWidth: 3,
+  fill: '#ff7961',
+  opacity: 0.5,
+  selectable: false,
+  objectCaching: false,
+  transparentCorners: false
+}
+
 export class MyPolygon extends fabric.Polygon {
   private _selected: boolean
   private _editing: boolean
 
-  constructor({ id, points }: MyPolygonOption) {
+  constructor({ id, points, isRay }: MyPolygonOption) {
     const fPoints = points.map((pt) => new fabric.Point(pt.x, pt.y))
+    const defaultOptions = isRay?defaultOptionForRay:defaultOption
     super(fPoints, {
-      ...defaultOption,
+      ...defaultOptions,
       data: {
         id,
         type: 'polygon'

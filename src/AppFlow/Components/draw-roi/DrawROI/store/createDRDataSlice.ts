@@ -4,6 +4,7 @@ import { MyDRState } from './useStore'
 import { Polygon, Point } from './../types'
 
 export interface DRDataSlice {
+  // TODO 是否在这里添加rays:[]
   polygons: Polygon[]
   setPolygons: (polygons: Polygon[]) => void
   addPolygons: (polygons: Polygon[]) => void
@@ -16,6 +17,7 @@ const createDRDataSlice = (
   get: GetState<MyDRState>
 ): DRDataSlice => ({
   polygons: [],
+  // TODO 类似设置多边形的逻辑，设置rays
   setPolygons: (polygons: Polygon[]) => {
     set(
       produce((draft: MyDRState) => {
@@ -27,6 +29,7 @@ const createDRDataSlice = (
     set(
       produce((draft: MyDRState) => {
         const draft1 = draft
+        console.log('draft,polygons==',draft,polygons)
         polygons.forEach((polygon) => draft1.polygons.push(polygon))
       })
     )

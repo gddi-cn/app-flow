@@ -4,7 +4,8 @@ import { fabric } from 'fabric'
 
 type FabCanvasEventListener = (opt: fabric.IEvent) => void
 
-type ControlModeType = 'default' | 'select' | 'drawPolygon' | 'drawRect'
+// TODO 新增画线类型
+type ControlModeType = 'default' | 'select' | 'drawPolygon' | 'drawRect' | 'drawRay'
 
 export interface DRCoreSlice {
   dinner: string

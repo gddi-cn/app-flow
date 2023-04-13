@@ -6,4 +6,6 @@ export type Point = {
 export type Polygon = {
   id: number
   points: Point[]
+  isRay?: boolean
 }
+// TODO 添加Rays

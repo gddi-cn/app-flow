@@ -43,6 +43,7 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     }
   }, [setControlMode, controlMode])
 
+  // TODO 添加rays的操作
   const handleDoneClick = useCallback(() => {
     if (fabCanvas) {
       if (
@@ -58,6 +59,7 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     }
   }, [fabCanvas])
 
+  // TODO 添加rays的操作
   const handleDeleteClick = useCallback(() => {
     if (fabCanvas) {
       if (

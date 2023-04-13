@@ -21,7 +21,11 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
       return
     }
     if (objRef.current === undefined) {
-      objRef.current = new MyPolygon({ id: polygon.id, points: polygon.points })
+      objRef.current = new MyPolygon({
+        id: polygon.id,
+        points: polygon.points,
+        isRay: polygon?.isRay || false
+      })
       fabCanvas.add(objRef.current)
       fabCanvas.requestRenderAll()
     }

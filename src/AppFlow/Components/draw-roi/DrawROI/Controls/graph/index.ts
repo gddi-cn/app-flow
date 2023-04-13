@@ -1,4 +1,5 @@
 export * from './PolygonGraph'
 export * from './CircleGraph'
 export * from './DrawRectAssistant'
+export * from './DrawRayAssistant'
 export * from './util'

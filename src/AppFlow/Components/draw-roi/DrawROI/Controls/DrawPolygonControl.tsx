@@ -301,7 +301,6 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
           <ChangeHistoryOutlinedIcon />
         </ToggleButton>
       </Tooltip>
-      {/* TODO 添加line 按钮 */}
     </Box>
   )
 }
