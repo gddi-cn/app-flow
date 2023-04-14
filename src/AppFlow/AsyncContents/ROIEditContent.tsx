@@ -4,7 +4,6 @@ import { useStore } from '../store/useStore'
 import {
   DrawROI,
   DrawPolygonControl,
-  DrawRectControl,
   DrawRayControl
 } from '../Components/draw-roi'
 import { ImgSourceLocal } from './ImgSourceLocal'
@@ -72,8 +71,6 @@ export const ROIEditContent = ({
   }, [])
 
   const handleRegionsChange = useCallback((r: number[][][]) => {
-    console.log('current regions', regions, [...r])
-
     onRegionsChange([...r])
   }, [])
 
@@ -109,7 +106,6 @@ export const ROIEditContent = ({
               onROIsChange={handleRegionsChange}
             >
               <DrawPolygonControl />
-              <DrawRectControl></DrawRectControl>
               <DrawRayControl />
             </DrawROI>
           </Box>

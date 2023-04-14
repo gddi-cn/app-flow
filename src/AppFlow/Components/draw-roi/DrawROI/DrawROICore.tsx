@@ -21,9 +21,9 @@ const ImageInitSetting = {
     color: '#8fa8bf',
     blur: 20,
     offsetX: 8,
-    offsetY: 18,
+    offsetY: 18
   }),
-  selectable: false,
+  selectable: false
 }
 
 export interface DrawROICoreProps {
@@ -37,7 +37,7 @@ export function DrawROICore({
   imgUrl,
   defaultROIs,
   onROIsChange,
-  children,
+  children
 }: DrawROICoreProps) {
   const {
     fabCanvas,
@@ -48,11 +48,12 @@ export function DrawROICore({
     // imgHeight,
     setFabCanvas,
     setPolygons,
+
     // setMainImage,
     setImgWH,
     mouseDownHandler,
     mouseUpHandler,
-    mouseMoveHandler,
+    mouseMoveHandler
   } = useStore(
     (state) => ({
       fabCanvas: state.fabCanvas,
@@ -68,7 +69,7 @@ export function DrawROICore({
       // setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
       mouseUpHandler: state.mouseUpHandler,
-      mouseMoveHandler: state.mouseMoveHandler,
+      mouseMoveHandler: state.mouseMoveHandler
     }),
     shallow
   )
@@ -183,7 +184,7 @@ export function DrawROICore({
       const newROIs: number[][][] = polygons.map((poly) => {
         return poly.points.map((pt) => [
           pt.x / imgWH.width,
-          pt.y / imgWH.height,
+          pt.y / imgWH.height
         ])
       })
       onROIsChange(newROIs)
@@ -203,8 +204,8 @@ export function DrawROICore({
           data: {
             type: 'mainImage',
             url: imgUrl,
-            name: imgUrl,
-          },
+            name: imgUrl
+          }
         })
         setImgWH(img.width || 0, img.height || 0)
         appRef.current?.requestRenderAll()
@@ -216,8 +217,8 @@ export function DrawROICore({
           data: {
             type: 'mainImage',
             url: imgUrl,
-            name: imgUrl,
-          },
+            name: imgUrl
+          }
         })
         imgRef.current = img
         appRef.current?.add(img)
@@ -239,7 +240,7 @@ export function DrawROICore({
         fireRightClick: true,
         stopContextMenu: true,
         uniformScaling: false,
-        selection: false,
+        selection: false
       })
       app.hoverCursor = 'default'
       setFabCanvas(app)
@@ -253,8 +254,8 @@ export function DrawROICore({
             data: {
               type: 'mainImage',
               url: imgUrl,
-              name: imgUrl,
-            },
+              name: imgUrl
+            }
           })
           imgRef.current = img
           setImgWH(img.width || 0, img.height || 0)
@@ -272,7 +273,6 @@ export function DrawROICore({
   }, [canvasRef.current, setFabCanvas, setImgWH])
 
   const polygonComponentList = useMemo(() => {
-    // console.log(polygons, 296)
     return polygons.map((polygon) => (
       <PolygonComponent key={polygon.id} polygon={polygon} />
     ))

@@ -22,6 +22,7 @@ export interface DrawROIProps {
  * React component to edit regions of interests on an image
  */
 export const DrawROI = (props: DrawROIProps): JSX.Element => {
+  console.log('DrawROI com props', props)
   return (
     <Provider createStore={createStore}>
       <DrawROICore {...props} />

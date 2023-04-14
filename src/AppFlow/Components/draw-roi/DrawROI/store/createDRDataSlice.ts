@@ -2,9 +2,10 @@ import produce from 'immer'
 import { GetState, SetState } from 'zustand'
 import { MyDRState } from './useStore'
 import { Polygon, Point } from './../types'
+import { genarateRayNumber } from '../Controls/graph'
 
+// TODO ray添加序号管理,存在问题
 export interface DRDataSlice {
-  // TODO 是否在这里添加rays:[]
   polygons: Polygon[]
   setPolygons: (polygons: Polygon[]) => void
   addPolygons: (polygons: Polygon[]) => void
@@ -17,11 +18,10 @@ const createDRDataSlice = (
   get: GetState<MyDRState>
 ): DRDataSlice => ({
   polygons: [],
-  // TODO 类似设置多边形的逻辑，设置rays
   setPolygons: (polygons: Polygon[]) => {
     set(
       produce((draft: MyDRState) => {
-        draft.polygons = polygons
+        draft.polygons = genarateRayNumber(polygons)
       })
     )
   },
@@ -29,8 +29,10 @@ const createDRDataSlice = (
     set(
       produce((draft: MyDRState) => {
         const draft1 = draft
-        console.log('draft,polygons==',draft,polygons)
-        polygons.forEach((polygon) => draft1.polygons.push(polygon))
+        polygons.forEach((polygon) => {
+          draft1.polygons.push(polygon)
+        })
+        draft1.polygons = genarateRayNumber(draft1.polygons)
       })
     )
   },
@@ -45,6 +47,7 @@ const createDRDataSlice = (
           }
         })
         draft1.polygons = newPolygons
+        draft1.polygons = genarateRayNumber(draft1.polygons)
       })
     )
   },
@@ -57,7 +60,7 @@ const createDRDataSlice = (
         }
       })
     )
-  },
+  }
 })
 
 export default createDRDataSlice

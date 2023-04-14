@@ -7,7 +7,7 @@ import { Box, ToggleButton, Tooltip } from '@mui/material'
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 import { Point, Polygon } from '../types'
 import { getRandomId } from '../helpers'
-import { DrawRayAssistant } from './graph'
+import { DrawRayAssistant, MyCircle } from './graph'
 
 export const DrawRayControl: ControlsElementType = ({ disabled }) => {
   // gain values and functions from store
@@ -25,7 +25,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
       setControlMode: state.setControlMode,
       fabCanvas: state.fabCanvas,
       imgWH: state.imgWH,
-      //   TODO 确认画线是否可以用这个
       addPolygons: state.addPolygons,
       setMouseDownHandler: state.setMouseDownHandler,
       setMouseMoveHandler: state.setMouseMoveHandler
@@ -54,7 +53,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
     assistRef.current = undefined
   }, [fabCanvas, assistRef.current])
 
-  //   TODO 重点如何画线，在鼠标起止点；
   const addRoIRay = useCallback(
     ({
       xBegin,
@@ -67,10 +65,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
       xEnd: number
       yEnd: number
     }) => {
-      // todo
-      //   if(imgWH.width>0 && imgWH.height >0) {
-      //     const crop
-      //   }
       const points: Point[] = [
         { x: xBegin, y: yBegin },
         { x: xEnd, y: yEnd }
@@ -102,6 +96,7 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
         } else if (assistRef.current.Status === 'pt1') {
           // end draw -- create new line
           assistRef.current.setPoint(pt.x, pt.y)
+          // add lineEnd
           const { xBegin, yBegin, xEnd, yEnd } = assistRef.current.endDraw()
           addRoIRay({ xBegin, yBegin, xEnd, yEnd })
         }
@@ -113,7 +108,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
   const onMouseMove = useCallback(
     (opt: fabric.IEvent) => {
       if (fabCanvas) {
-        console.log('move mouse')
         if (assistRef.current !== undefined) {
           const evt = opt.e as any
           const pt = fabCanvas.getPointer(evt)

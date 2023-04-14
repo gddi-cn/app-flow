@@ -29,8 +29,6 @@ export class DrawRayAssistant {
         class: 'line'
       }
     })
-    // TODO 添加fabric.Text| fabric.circle | arrow
-
     this.pt1 = new fabric.Point(0, 0)
     this.pt2 = new fabric.Point(0, 0)
   }
