@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import ToggleButton from '@mui/material/ToggleButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
-import { MyPolygon } from './graph'
+import { MyPolygon, MyRay } from './graph'
 
 export const SelectControl: ControlsElementType = ({ disabled }) => {
   const {
@@ -50,12 +50,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
         fabCanvas.getActiveObject().data &&
         fabCanvas.getActiveObject().data.type === 'ray'
       ) {
-        const selectedPolygon = fabCanvas.getActiveObject() as fabric.Group
-        console.log(
-          'fabCanvas.getActiveObject().data.type === ray',
-          selectedPolygon
-        )
-        selectedPolygon.editing = false
+        const selectedPolygon = fabCanvas.getActiveObject() as MyRay
+
         fabCanvas.discardActiveObject()
         fabCanvas.renderAll()
       }
@@ -84,7 +80,6 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
         const selectedPolygon = fabCanvas.getActiveObject() as
           | MyPolygon
           | fabric.Group
-        console.log(`delete- ${selectedPolygon.data.id}`)
         deletePolygons([selectedPolygon.data.id])
       }
     }
@@ -109,7 +104,6 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
           const polygonObj = obj as MyPolygon
           if (polygonObj.points) {
             const matrix = polygonObj.calcTransformMatrix()
-            console.log('matrix==', matrix)
             const newPoints = polygonObj.points
               .map((p) => {
                 return new fabric.Point(
@@ -131,32 +125,34 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
         }
         // TODO 缩放比例的问题
         const handleObjModifiedForRay = () => {
-          const groupObj = obj as fabric.Group
-          console.log('groupObj', groupObj)
+          const groupObj = obj as MyRay
+
           if (groupObj.data) {
             const polygonObj = groupObj
               ?.getObjects()
-              .find((item) => item?.data?.type && item.data.type === 'polygon')
-            const matrix = polygonObj.calcTransformMatrix()
-
-            const newPoints = polygonObj?.points
-              .map((p) => {
-                return new fabric.Point(
-                  p.x - polygonObj.pathOffset.x,
-                  p.y - polygonObj.pathOffset.y
-                )
-              })
-              .map((p) => {
-                return fabric.util.transformPoint(p, matrix)
-              })
-              .map((pt) => {
-                console.log(`pt: (${pt.x}, ${pt.y})`)
-                return {
-                  x: pt.x,
-                  y: pt.y
-                } as Point
-              })
-            modifyPolygonPoints(groupObj.data.id, newPoints)
+              .find(
+                (item) => item?.data?.type && item.data.type === 'polygon'
+              ) as MyPolygon
+            if (polygonObj && polygonObj?.points) {
+              const matrix = polygonObj.calcTransformMatrix()
+              const newPoints = polygonObj?.points
+                .map((p) => {
+                  return new fabric.Point(
+                    p.x - polygonObj.pathOffset.x,
+                    p.y - polygonObj.pathOffset.y
+                  )
+                })
+                .map((p) => {
+                  return fabric.util.transformPoint(p, matrix)
+                })
+                .map((pt) => {
+                  return {
+                    x: pt.x,
+                    y: pt.y
+                  } as Point
+                })
+              modifyPolygonPoints(groupObj.data.id, newPoints)
+            }
           }
         }
         if (obj.data && obj.data.type && obj.data.type !== 'mainImage') {

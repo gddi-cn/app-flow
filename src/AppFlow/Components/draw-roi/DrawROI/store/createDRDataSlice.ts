@@ -4,7 +4,6 @@ import { MyDRState } from './useStore'
 import { Polygon, Point } from './../types'
 import { genarateRayNumber } from '../Controls/graph'
 
-// TODO ray添加序号管理,存在问题
 export interface DRDataSlice {
   polygons: Polygon[]
   setPolygons: (polygons: Polygon[]) => void

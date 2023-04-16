@@ -21,12 +21,10 @@ const defaultOptionForGroup: fabric.IGroupOptions = {
   objectCaching: false,
   transparentCorners: false
 }
-// TODO need to be added text type
-export class MyRay {
+
+export class MyRay extends fabric.Group {
   private _triangle: fabric.Triangle
   private _text: fabric.Text
-  private _polygonLine: MyPolygon
-  private _polygonLineId: number
 
   constructor({
     polygonLineId,
@@ -35,9 +33,14 @@ export class MyRay {
     endPoint,
     textContent
   }: MyRayOption) {
-    this._polygonLine = polygonLine
-    this._polygonLineId = polygonLineId
-    // TODO 三角形的大小、线长影响、zoom缩放位置有点问题
+    super([polygonLine], {
+      ...defaultOptionForGroup,
+      data: {
+        id: polygonLineId,
+        type: 'ray'
+      }
+    })
+
     // angle (in radians) computed from x axis
     const angle = Math.atan2(
       endPoint.y - startPoint.y,
@@ -58,8 +61,8 @@ export class MyRay {
     }
 
     // 计算三角形顶点坐标
-    const triangleTopX = endPoint.x - (triangleHeight / 2) * Math.cos(angle)
-    const triangleTopY = endPoint.y - (triangleHeight / 2) * Math.sin(angle)
+    const triangleTopX = endPoint.x + (triangleHeight / 2) * Math.cos(angle)
+    const triangleTopY = endPoint.y + (triangleHeight / 2) * Math.sin(angle)
 
     // 计算三角形左上角坐标
     const triangleLeft =
@@ -67,7 +70,6 @@ export class MyRay {
     const triangleTop =
       triangleTopY - (triangleWidth / 2) * Math.sin(angle + Math.PI / 2)
 
-    console.log('endPoint', endPoint, triangleTopX, triangleTopY)
     // draw triangle in the correte position
     this._triangle = new fabric.Triangle({
       fill: '#f44336',
@@ -83,19 +85,18 @@ export class MyRay {
       fontSize: 16,
       fill: 'black',
       left: triangleLeft,
-      top: triangleTop
+      top: triangleTop,
+      backgroundColor: '#d5e3f9'
     })
-  }
 
-  public genarateRay() {
-    return new fabric.Group([this._polygonLine, this._triangle, this._text], {
-      ...defaultOptionForGroup,
-      data: {
-        // record the polygonline id
-        id: this._polygonLineId,
-        // define group as ray type
-        type: 'ray'
-      }
-    })
+    // 添加三角形和文本到 Group 对象
+    this.addWithUpdate(this._triangle)
+    this.addWithUpdate(this._text)
+
+    // 重新计算 Group 对象的边界框，并更新画布
+    this.dirty = true
+
+    this.setCoords()
+    this.canvas?.requestRenderAll()
   }
 }

@@ -65,30 +65,31 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
       xEnd: number
       yEnd: number
     }) => {
-      const points: Point[] = [
-        { x: xBegin, y: yBegin },
-        { x: xEnd, y: yEnd }
-      ]
-      const newLine: Polygon = {
-        id: getRandomId(),
-        points,
-        isRay: true
+      if (imgWH.width > 0 && imgWH.height > 0) {
+        const points: Point[] = [
+          { x: xBegin, y: yBegin },
+          { x: xEnd, y: yEnd }
+        ]
+        const newLine: Polygon = {
+          id: getRandomId(),
+          points,
+          isRay: true
+        }
+        addPolygons([newLine])
+        clearUpHelpers()
       }
-      console.log('addRoIRay,newLine', newLine)
-      addPolygons([newLine])
-      clearUpHelpers()
     },
-    [clearUpHelpers]
+    [imgWH, clearUpHelpers]
   )
 
   const onMouseDown = useCallback(
     (opt: fabric.IEvent) => {
-      console.log('mouse down')
       if (fabCanvas !== undefined) {
         if (assistRef.current === undefined) {
           assistRef.current = new DrawRayAssistant()
         }
         const pt = fabCanvas.getPointer(opt.e as any)
+        boundPointer(pt, imgWH.width, imgWH.height)
         if (assistRef.current.Status === 'init') {
           assistRef.current.setPoint(pt.x, pt.y)
           assistRef.current.addToCanvas(fabCanvas)
@@ -107,17 +108,26 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
 
   const onMouseMove = useCallback(
     (opt: fabric.IEvent) => {
-      if (fabCanvas) {
+      if (fabCanvas && imgWH.width > 0 && imgWH.height > 0) {
         if (assistRef.current !== undefined) {
-          const evt = opt.e as any
-          const pt = fabCanvas.getPointer(evt)
+          const pt = fabCanvas.getPointer(opt.e as any)
+          boundPointer(pt, imgWH.width, imgWH.height)
           if (assistRef.current.Status === 'pt1')
             assistRef.current.setPoint(pt.x, pt.y)
           fabCanvas.requestRenderAll()
         }
       }
     },
-    [fabCanvas]
+    [fabCanvas, imgWH]
+  )
+  const boundPointer = useCallback(
+    (pointer: Point, boundWidth: number, boundHeight: number) => {
+      const x = Math.max(Math.min(pointer.x, boundWidth), 0)
+      const y = Math.max(Math.min(pointer.y, boundHeight), 0)
+      pointer.x = x
+      pointer.y = y
+    },
+    []
   )
 
   useEffect(() => {

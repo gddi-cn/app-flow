@@ -16,7 +16,7 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
   const rayRef = useRef<fabric.Group | undefined>()
 
   useEffect(() => {
-    console.log(`polygonComponent useEffect`)
+    // console.log(`polygonComponent useEffect`)
     if (fabCanvas === undefined) {
       return
     }
@@ -34,7 +34,8 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
           endPoint: polygon.points[1],
           textContent: 'Ray_' + polygon.rayNumber
         })
-        rayRef.current = rayObj.genarateRay()
+        // rayRef.current = rayObj.genarateRay()
+        rayRef.current = rayObj
         fabCanvas.add(rayRef.current)
       } else {
         fabCanvas.add(objRef.current)
@@ -46,8 +47,10 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
       // console.log(`polygonComponent useEffect - return`)
       if (fabCanvas && objRef.current) {
         fabCanvas.remove(objRef.current)
-        fabCanvas.remove(rayRef.current)
         objRef.current = undefined
+      }
+      if (fabCanvas && rayRef.current) {
+        fabCanvas.remove(rayRef.current)
         rayRef.current = undefined
       }
     }
