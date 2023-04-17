@@ -123,7 +123,7 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
             modifyPolygonPoints(polygonObj.data.id, newPoints)
           }
         }
-        // TODO 缩放比例的问题
+
         const handleObjModifiedForRay = () => {
           const groupObj = obj as MyRay
 

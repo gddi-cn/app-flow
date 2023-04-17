@@ -46,25 +46,27 @@ export class MyRay extends fabric.Group {
       endPoint.y - startPoint.y,
       endPoint.x - startPoint.x
     )
+    // ray line length
     const lineLength = Math.sqrt(
       (endPoint.y - startPoint.y) * (endPoint.y - startPoint.y) +
         (endPoint.x - startPoint.x) * (endPoint.x - startPoint.x)
-    ) // 计算线段长度
+    )
     // Triangle bottom width
     const triangleWidth = 20
     // Triangle height
-    let triangleHeight = 40 // 三角形高度
-    const maxTriangleHeight = lineLength / 2 // 三角形最大高度
+    let triangleHeight = 40
+    // Triangle max height
+    const maxTriangleHeight = lineLength / 3
     if (triangleHeight > maxTriangleHeight) {
-      // 如果三角形高度过大，则按比例缩小三角形高度
+      //  reduce the height of the triangle proportionally
       triangleHeight = (maxTriangleHeight * triangleHeight) / triangleWidth
     }
 
-    // 计算三角形顶点坐标
+    // the coordinates of triangle vertices
     const triangleTopX = endPoint.x + (triangleHeight / 2) * Math.cos(angle)
     const triangleTopY = endPoint.y + (triangleHeight / 2) * Math.sin(angle)
 
-    // 计算三角形左上角坐标
+    // the coordinates of the upper left corner of a triangle
     const triangleLeft =
       triangleTopX - (triangleWidth / 2) * Math.cos(angle + Math.PI / 2)
     const triangleTop =
@@ -80,7 +82,7 @@ export class MyRay extends fabric.Group {
       //   angle in degree
       angle: angle * (180 / Math.PI) + 90
     })
-    // 创建文本
+    // text
     this._text = new fabric.Text(textContent, {
       fontSize: 16,
       fill: 'black',
@@ -89,11 +91,11 @@ export class MyRay extends fabric.Group {
       backgroundColor: '#d5e3f9'
     })
 
-    // 添加三角形和文本到 Group 对象
+    // Add triangles and text to the Group object
     this.addWithUpdate(this._triangle)
     this.addWithUpdate(this._text)
 
-    // 重新计算 Group 对象的边界框，并更新画布
+    // Recalculate the bounding box of the Group object and update the canvas
     this.dirty = true
 
     this.setCoords()

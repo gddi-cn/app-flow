@@ -44,12 +44,11 @@ export class MyPolygon extends fabric.Polygon {
     })
     this._editing = false
     this._selected = false
-    // 特别添加双击事件去编辑多边形
     this.on('mousedblclick', this.handleDoubleClick)
     // this.on('modified', this.handleModified)
   }
 
-  // 多边形顶点控件，允许用户通过拖动来修改多边形对象中的顶点位置。
+  // Polygon vertex control, allowing users to modify vertex positions in polygon objects by dragging
   private _createPolygonVertexControl(
     lastControlIndex: number,
     index: number
@@ -69,7 +68,7 @@ export class MyPolygon extends fabric.Polygon {
         y = polygonObj.points[index].y - polygonObj.pathOffset.y
       }
       const point0 = new fabric.Point(x, y)
-      // 计算涉及到画布视口变换以及对象的变换矩阵，返回一个转换后的点对象
+      // Calculate the transformation matrix involving canvas viewport transformations and objects, and return a converted point object
       if (canvas1.viewportTransform) {
         return fabric.util.transformPoint(
           point0,
@@ -95,23 +94,21 @@ export class MyPolygon extends fabric.Polygon {
       x: number,
       y: number
     ): boolean {
-      // 当前变换目标对象
+      // Current Transform Target Object
       const polygon = transformData.target as fabric.Polygon
       // const currentControl = polygon.controls[
       //   (polygon as any).__corner
       // ] as fabric.Control
       if (polygon.points) {
-        // 获取鼠标相对于该多边形本地坐标系的位置
+        // Obtain the position of the mouse relative to the local coordinate system of the polygon
         const mouseLocalPosition = polygon.toLocalPoint(
           new fabric.Point(x, y),
           'center',
           'center'
         )
-        // 计算多边形的基本大小
         const polygonBaseSize = polygon._getNonTransformedDimensions()
-        // 变换后的大小
         const size = polygon._getTransformedDimensions(0, 0)
-        // 得到顶点的最终位置
+        // Obtain the final position of the vertex
         const finalPoint = new fabric.Point(
           (mouseLocalPosition.x * polygonBaseSize.x) / size.x +
             polygon.pathOffset.x,
@@ -130,7 +127,7 @@ export class MyPolygon extends fabric.Polygon {
 
     // A function to keep the polygon in the same position when we change its
     // width/height/top/left.
-    // 该函数的作用是包装原始的 actionHandler 函数，并在其执行后修正多边形对象的位置。
+    //  used to wrap the original actionHandler function and correct the position of the polygon object after its execution.
     function anchorWrapper(
       anchorIndex: number,
       actionHandler: fabric.Control['actionHandler']
@@ -141,9 +138,8 @@ export class MyPolygon extends fabric.Polygon {
         x,
         y
       ): boolean => {
-        // 获取了当前变换目标对象
         const fabricObject = transform.target as fabric.Polygon
-        // 先计算出基准点的坐标，然后应用变换矩阵得到该基准点的绝对坐标。
+        // calculate the coordinates of the reference point, and then apply the transformation matrix to obtain the absolute coordinates of the reference point.
         if (fabricObject.points) {
           const point0 = new fabric.Point(
             fabricObject.points[anchorIndex].x - fabricObject.pathOffset.x,
