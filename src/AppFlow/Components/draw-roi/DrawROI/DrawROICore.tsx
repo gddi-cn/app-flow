@@ -79,6 +79,7 @@ export function DrawROICore({
   const isDragging = useRef<boolean>(false)
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
+  const itextRef = useRef<fabric.IText | undefined>(undefined)
 
   const handleCanvasWheel = useCallback(
     (opt: fabric.IEvent): void => {

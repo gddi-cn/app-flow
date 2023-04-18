@@ -8,6 +8,7 @@ export type MyRayOption = {
   startPoint: Point
   endPoint: Point
   textContent: string
+  onTextChange: (e: fabric.IEvent) => void
 }
 
 const defaultOptionForGroup: fabric.IGroupOptions = {
@@ -18,20 +19,25 @@ const defaultOptionForGroup: fabric.IGroupOptions = {
   originX: 'center',
   originY: 'center',
   selectable: false,
+  // selectable: true,
   objectCaching: false,
   transparentCorners: false
+  // evented: true
 }
 
 export class MyRay extends fabric.Group {
   private _triangle: fabric.Triangle
   private _text: fabric.Text
+  private _selected: boolean
+  private _editing: boolean
 
   constructor({
     polygonLineId,
     polygonLine,
     startPoint,
     endPoint,
-    textContent
+    textContent,
+    onTextChange
   }: MyRayOption) {
     super([polygonLine], {
       ...defaultOptionForGroup,
@@ -40,6 +46,10 @@ export class MyRay extends fabric.Group {
         type: 'ray'
       }
     })
+
+    this._editing = false
+    this._selected = false
+    this.on('mousedblclick', this.handleDoubleClick)
 
     // angle (in radians) computed from x axis
     const angle = Math.atan2(
@@ -82,13 +92,14 @@ export class MyRay extends fabric.Group {
       //   angle in degree
       angle: angle * (180 / Math.PI) + 90
     })
-    // text
-    this._text = new fabric.Text(textContent, {
+    //  editable text
+    this._text = new fabric.IText(textContent, {
       fontSize: 16,
       fill: 'black',
       left: triangleLeft,
       top: triangleTop,
-      backgroundColor: '#d5e3f9'
+      backgroundColor: '#d5e3f9',
+      editable: true
     })
 
     // Add triangles and text to the Group object
@@ -100,5 +111,86 @@ export class MyRay extends fabric.Group {
 
     this.setCoords()
     this.canvas?.requestRenderAll()
+  }
+  onSelect(): boolean {
+    console.log('onSelect')
+    this._selected = true
+    return false
+  }
+
+  // onDeselect(): boolean {
+  //   console.log('onDeselect')
+  //   if (!this._editing) {
+  //     this._selected = false
+  //     return false
+  //   }
+  //   return true
+  // }
+  // TODO 另一个思路直接在外部设置input框 修改 传入进来的content值
+
+  handleDoubleClick(e: fabric.IEvent) {
+    console.log('e', e)
+
+    console.log('double clickkkk on group')
+    console.log('this._selected,this._editing', this._selected, this._editing)
+    if (this._selected) {
+      console.log('change somethins')
+      this._editing = true
+    }
+
+    if (this._editing) {
+      let textForEditing = fabric.util.object.clone(this._text)
+      console.log('textForEditing', textForEditing)
+      textForEditing.set({
+        text: 'tessss',
+        editable: true
+      })
+      // hide group inside text
+      this._text.visible = false
+      // note important, text cannot be hidden without this
+      this.addWithUpdate()
+
+      textForEditing.visible = true
+      // do not give controls, do not allow move/resize/rotation on this
+      textForEditing.hasControls = false
+
+      // now add this temp obj to canvas
+      this.canvas?.add(textForEditing)
+      this.canvas?.setActiveObject(textForEditing)
+
+      // make the cursor showing
+      textForEditing.enterEditing()
+      textForEditing.selectAll()
+
+      // editing:exited means you click outside of the textForEditing
+      textForEditing.on('editing:exited', () => {
+        console.log('editing:exited')
+        let newVal = textForEditing.text
+        let oldVal = this._text.text
+        console.log('newVal,oldVal', newVal, oldVal)
+
+        // then we check if text is changed
+        if (true || newVal !== oldVal) {
+          console.log('this._text.setting')
+          this._text.set({
+            text: newVal,
+            visible: true
+          })
+          // comment before, you must call this
+          this.addWithUpdate()
+
+          // we do not need textForEditing anymore
+          textForEditing.visible = false
+          this.canvas?.remove(textForEditing)
+
+          // optional, buf for better user experience
+          // this.canvas?.setActiveObject(this)
+
+          console.log('text for editing end')
+        }
+      })
+
+      console.log(' double click end')
+    }
   }
 }

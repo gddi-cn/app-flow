@@ -3,6 +3,7 @@ import { useStore } from '../store/useStore'
 import shallow from 'zustand/shallow'
 import { MyPolygon, MyRay } from '../Controls/graph'
 import { Polygon } from '../types'
+import { fabric } from 'fabric'
 export interface PolygonProps {
   polygon: Polygon
 }
@@ -32,9 +33,10 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
           polygonLine: objRef.current,
           startPoint: polygon.points[0],
           endPoint: polygon.points[1],
-          textContent: 'Ray_' + polygon.rayNumber
+          textContent: 'Ray_' + polygon.rayNumber,
+          onTextChange: (e) => console.log('eee', e)
         })
-        // rayRef.current = rayObj.genarateRay()
+        // fabCanvas.selection = true
         rayRef.current = rayObj
         fabCanvas.add(rayRef.current)
       } else {

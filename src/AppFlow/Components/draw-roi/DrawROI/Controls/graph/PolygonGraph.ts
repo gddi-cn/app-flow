@@ -87,7 +87,8 @@ export class MyPolygon extends fabric.Polygon {
     // The function receive as argument the mouse event, the current trasnform object
     // and the current position in canvas coordinate
     // transform.target is a reference to the current object being transformed,
-    // 该函数的作用是当用户拖动控件时，更新多边形对象中的顶点位置，并返回 true 表示操作成功，或返回 false 表示操作失败。
+    // The function updates the vertex positions in the polygon object when the user drags the control, and returns
+    // true to indicate successful operation or false to indicate failed operation
     function actionHandler(
       eventData: MouseEvent,
       transformData: fabric.Transform,
