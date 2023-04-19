@@ -121,7 +121,7 @@
       "runner": "default",
       "props": {
         "dinner": "🍌🍔🍟🧃",
-        "regionsWithLable": {
+        "regionsWithLabel": {
           "label_test1": [
             [0.14703369140625, 0.16278211805555556],
             [0.07437744140625, 0.2613932291666667],

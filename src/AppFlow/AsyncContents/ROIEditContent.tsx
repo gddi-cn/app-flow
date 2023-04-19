@@ -14,6 +14,7 @@ import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import { Toolbar } from '@mui/material'
+import { regionsWithLabel } from '../types'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -47,11 +48,16 @@ function a11yProps(index: number) {
 
 export interface ROIEditContentProps {
   regions: number[][][]
-  onRegionsChange: (newRegions: number[][][]) => void
+  regionsWithLabel: regionsWithLabel
+  onRegionsChange: (
+    newRegions: number[][][],
+    newRegionsWithLabel: regionsWithLabel
+  ) => void
 }
 
 export const ROIEditContent = ({
   regions,
+  regionsWithLabel,
   onRegionsChange
 }: ROIEditContentProps): JSX.Element => {
   const [tabId, setTabId] = useState<number>(0)
@@ -70,9 +76,12 @@ export const ROIEditContent = ({
     setTabId(newVal)
   }, [])
 
-  const handleRegionsChange = useCallback((r: number[][][]) => {
-    onRegionsChange([...r])
-  }, [])
+  const handleRegionsChange = useCallback(
+    (r: number[][][], rWithLabel: regionsWithLabel) => {
+      onRegionsChange([...r], { ...rWithLabel })
+    },
+    []
+  )
 
   return (
     <Box className="editor-content">
@@ -103,6 +112,7 @@ export const ROIEditContent = ({
             <DrawROI
               imgUrl={roiImg.url}
               defaultROIs={regions}
+              defaultRegionsWithLabel={regionsWithLabel}
               onROIsChange={handleRegionsChange}
             >
               <DrawPolygonControl />

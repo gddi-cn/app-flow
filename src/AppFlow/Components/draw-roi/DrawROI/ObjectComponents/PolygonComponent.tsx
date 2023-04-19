@@ -1,20 +1,51 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useStore } from '../store/useStore'
 import shallow from 'zustand/shallow'
 import { MyPolygon, MyRay } from '../Controls/graph'
 import { Polygon } from '../types'
 import { fabric } from 'fabric'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  DialogTitle,
+  TextField
+} from '@mui/material'
+import { MyPolygonWithLabel } from '../Controls/graph/PolygonGroupGraph'
+
 export interface PolygonProps {
   polygon: Polygon
+  onLabelChange: (polygon: Polygon, newLabel: string) => void
 }
 
-export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
+export const PolygonComponent = ({
+  polygon,
+  onLabelChange
+}: PolygonProps): JSX.Element => {
   const { fabCanvas } = useStore(
     (state) => ({ fabCanvas: state.fabCanvas }),
     shallow
   )
-  const objRef = useRef<MyPolygon | undefined>()
+  const objRef = useRef<MyPolygonWithLabel | undefined>()
   const rayRef = useRef<fabric.Group | undefined>()
+  const [diaOpen, setDiaOpen] = useState<boolean>(false)
+  const [labelName, setLabelName] = useState<string>(
+    polygon?.labelName ?? 'label_init'
+  )
+
+  const handleClickOpen = () => {
+    setDiaOpen(true)
+  }
+
+  const handleClose = () => {
+    setDiaOpen(false)
+  }
+  const handleOK = () => {
+    // TODO 把当前的labelName进行更新
+    onLabelChange(polygon, labelName)
+    setDiaOpen(false)
+  }
 
   useEffect(() => {
     // console.log(`polygonComponent useEffect`)
@@ -22,24 +53,37 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
       return
     }
     if (objRef.current === undefined) {
-      objRef.current = new MyPolygon({
-        id: polygon.id,
-        points: polygon.points,
-        isRay: polygon?.isRay || false
-      })
+      // TODO 对MyPolygon同样需要新增label的显示和编辑功能
+
       if (polygon?.isRay) {
+        const currentObj = new MyPolygon({
+          id: polygon.id,
+          points: polygon.points,
+          isRay: polygon?.isRay || false
+        })
         const rayObj = new MyRay({
           polygonLineId: polygon.id,
-          polygonLine: objRef.current,
+          polygonLine: currentObj,
           startPoint: polygon.points[0],
           endPoint: polygon.points[1],
-          textContent: 'Ray_' + polygon.rayNumber,
-          onTextChange: (e) => console.log('eee', e)
+          textContent: labelName,
+          handleLabelChange: handleClickOpen
         })
-        // fabCanvas.selection = true
         rayRef.current = rayObj
         fabCanvas.add(rayRef.current)
       } else {
+        const currentObj = new MyPolygon({
+          id: polygon.id,
+          points: polygon.points,
+          isRay: polygon?.isRay || false
+        })
+        const curObjWithlabel = new MyPolygonWithLabel({
+          polygon: polygon,
+          polygonObj: currentObj,
+          textContent: labelName,
+          handleLabelChange: handleClickOpen
+        })
+        objRef.current = curObjWithlabel
         fabCanvas.add(objRef.current)
       }
 
@@ -56,7 +100,24 @@ export const PolygonComponent = ({ polygon }: PolygonProps): JSX.Element => {
         rayRef.current = undefined
       }
     }
-  }, [polygon.id])
+  }, [polygon.id, polygon.labelName])
 
-  return <></>
+  // TODO 在命名这里新增校验；不能为空，是否可以重复 不可以？重复的话需要改结构？
+  return (
+    <>
+      <Dialog open={diaOpen} onClose={handleClose} fullWidth>
+        <DialogTitle>Change Label Name</DialogTitle>
+
+        <TextField
+          placeholder="Please name a label for this ROI region."
+          value={labelName}
+          onChange={(e) => setLabelName(e.target.value)}
+        />
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleOK}>OK</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 }

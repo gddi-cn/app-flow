@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
-import { Module, PropObject } from '../types'
+import { Module, PropObject, regionsWithLabel } from '../types'
 import { useStore } from '../store/useStore'
 import { ROIDialog } from './ROIDialog'
 import { NodeDetail } from './NodeDetail'
@@ -45,9 +45,15 @@ export const ROINodeBody = ({
   }, [])
 
   const handleDialogOk = useCallback(
-    (okVal: number[][][]) => {
+    (okVal: number[][][], okLables: regionsWithLabel) => {
       setDialogOpen(false)
       modifyModuleProp(nodeData.id, 'regions', [...okVal])
+      console.log('onOK===okVal,', okVal, okLables)
+      if (!okLables) {
+        modifyModuleProp(nodeData.id, 'regionsWithLabel', {})
+      } else {
+        modifyModuleProp(nodeData.id, 'regionsWithLabel', { ...okLables })
+      }
     },
     [nodeData.id, modifyModuleProp]
   )
@@ -65,6 +71,19 @@ export const ROINodeBody = ({
 
   const propObj = nodeData.props as PropObject
   const regions = propObj['regions'] as number[][][]
+  // TODO 添加带有标签的regions
+  let regionsWithLabel = {}
+  if (
+    propObj['regionsWithLabel'] &&
+    Object.keys(propObj['regionsWithLabel']).length !== 0
+  ) {
+    regionsWithLabel = propObj['regionsWithLabel'] as regionsWithLabel
+  }
+  console.log(
+    'init regionsWithLabel in ROIBODY  ,propObj',
+    regionsWithLabel,
+    propObj
+  )
 
   useEffect(() => {
     setFetchROIImgLoading(true)
@@ -96,6 +115,7 @@ export const ROINodeBody = ({
         title={r.dialog.title}
         okTitle={r.dialog.confirm}
         defaultRegions={regions}
+        defaultRegionsWithLable={regionsWithLabel}
         onClose={handleDialogClose}
         onOK={handleDialogOk}
       />

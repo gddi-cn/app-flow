@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider, createStore } from './store/useStore'
 import { DrawROICore } from './DrawROICore'
+import { regionsWithLabel } from '../../../types'
 
 export interface DrawROIProps {
   /**
@@ -12,9 +13,16 @@ export interface DrawROIProps {
    */
   defaultROIs: number[][][]
   /**
-   * Callback function when ROIs change
+   * ROI Object; Each region has their label
    */
-  onROIsChange?: (newROIs: number[][][]) => void
+  defaultRegionsWithLabel: regionsWithLabel
+  /**
+   * Callback function when ROIs and labels change
+   */
+  onROIsChange?: (
+    newROIs: number[][][],
+    newRegionsWithLabel: regionsWithLabel
+  ) => void
   children?: React.ReactNode
 }
 

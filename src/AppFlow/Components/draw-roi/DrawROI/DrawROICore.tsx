@@ -15,6 +15,8 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+import { regionsWithLabel } from '../../../types'
+import { Polygon } from './types'
 
 const ImageInitSetting = {
   shadow: new fabric.Shadow({
@@ -29,13 +31,15 @@ const ImageInitSetting = {
 export interface DrawROICoreProps {
   imgUrl: string | undefined
   defaultROIs: number[][][]
-  onROIsChange?: (newROIs: number[][][]) => void
+  defaultRegionsWithLabel: regionsWithLabel
+  onROIsChange?: (newROIs: number[][][], newRegions: regionsWithLabel) => void
   children?: React.ReactNode
 }
 
 export function DrawROICore({
   imgUrl,
   defaultROIs,
+  defaultRegionsWithLabel,
   onROIsChange,
   children
 }: DrawROICoreProps) {
@@ -48,7 +52,7 @@ export function DrawROICore({
     // imgHeight,
     setFabCanvas,
     setPolygons,
-
+    modifyPolygonLabel,
     // setMainImage,
     setImgWH,
     mouseDownHandler,
@@ -66,6 +70,7 @@ export function DrawROICore({
       //   state.mainImage === undefined ? 0 : state.mainImage.height || 0,
       setPolygons: state.setPolygons,
       setFabCanvas: state.setFabCanvas,
+      modifyPolygonLabel: state.modifyPolygonLabel,
       // setMainImage: state.setMainImage,
       mouseDownHandler: state.mouseDownHandler,
       mouseUpHandler: state.mouseUpHandler,
@@ -79,7 +84,6 @@ export function DrawROICore({
   const isDragging = useRef<boolean>(false)
   const lastPosX = useRef<number>(0)
   const lastPosY = useRef<number>(0)
-  const itextRef = useRef<fabric.IText | undefined>(undefined)
 
   const handleCanvasWheel = useCallback(
     (opt: fabric.IEvent): void => {
@@ -174,10 +178,16 @@ export function DrawROICore({
   useEffect(() => {
     // console.log(`ROIs changed - use Effect`)
     if (imgWH.width > 0 && imgWH.height > 0) {
-      const polys = ROIsToPolygons(defaultROIs, imgWH.width, imgWH.height)
+      const polys = ROIsToPolygons(
+        defaultROIs,
+        imgWH.width,
+        imgWH.height,
+        defaultRegionsWithLabel
+      )
+      console.log('setPolygons polys', polys)
       setPolygons(polys)
     }
-  }, [setPolygons, defaultROIs, imgWH])
+  }, [setPolygons, defaultROIs, imgWH, defaultRegionsWithLabel])
 
   useEffect(() => {
     // console.log('polygon changed - useEffect')
@@ -188,7 +198,18 @@ export function DrawROICore({
           pt.y / imgWH.height
         ])
       })
-      onROIsChange(newROIs)
+      // TODO update the regionsWithLabel,label相同会有冲突,后者覆盖前者
+      let newRegionsWithLabel: regionsWithLabel = {}
+      polygons.forEach((poly: Polygon, index) => {
+        newRegionsWithLabel = {
+          ...newRegionsWithLabel,
+          ...{
+            [poly.labelName ? poly.labelName : 'init_label_' + index]:
+              poly.points.map((pt) => [pt.x / imgWH.width, pt.y / imgWH.height])
+          }
+        }
+      })
+      onROIsChange(newROIs, newRegionsWithLabel)
     }
   }, [onROIsChange, polygons, imgWH])
 
@@ -273,11 +294,22 @@ export function DrawROICore({
     }
   }, [canvasRef.current, setFabCanvas, setImgWH])
 
+  const onLabelChange = useCallback(
+    (polygon: Polygon, newLabel: string): void => {
+      modifyPolygonLabel(polygon.id, newLabel)
+    },
+    []
+  )
+
   const polygonComponentList = useMemo(() => {
     return polygons.map((polygon) => (
-      <PolygonComponent key={polygon.id} polygon={polygon} />
+      <PolygonComponent
+        key={polygon.id}
+        polygon={polygon}
+        onLabelChange={onLabelChange}
+      />
     ))
-  }, [polygons.length, polygons])
+  }, [polygons.length, polygons, onLabelChange])
 
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)

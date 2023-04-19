@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
+import { regionsWithLabel } from '../types'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -32,8 +33,12 @@ export interface ROIDialogProps {
   title: string
   okTitle: string
   defaultRegions: number[][][]
+  defaultRegionsWithLable: regionsWithLabel
   onClose: () => void
-  onOK: (newRegions: number[][][]) => void
+  onOK: (
+    newRegions: number[][][],
+    newRegionsWithLabel: regionsWithLabel
+  ) => void
 }
 
 export const ROIDialog = ({
@@ -42,30 +47,37 @@ export const ROIDialog = ({
   title,
   okTitle,
   defaultRegions,
+  defaultRegionsWithLable,
   onClose,
   onOK
 }: ROIDialogProps): JSX.Element => {
   const [regions, setRegions] = useState<number[][][]>([])
+  const [regionsWithLabel, setRegionsWithLabel] = useState<regionsWithLabel>({})
 
+  // TODO 处理defaultRegionsWithlable的逻辑
   const handleClose = useCallback(() => {
     setRegions([...defaultRegions])
+    setRegionsWithLabel({ ...defaultRegionsWithLable })
     onClose()
-  }, [defaultRegions])
+  }, [defaultRegions, defaultRegionsWithLable])
 
   const handleOk = useCallback(() => {
-    onOK(regions)
-  }, [regions])
+    onOK(regions, regionsWithLabel)
+  }, [regions, regionsWithLabel])
 
   const handleRegionsChange = useCallback(
-    (newR: number[][][]) => {
+    (newR: number[][][], newRLable: regionsWithLabel) => {
       setRegions((old) => [...newR])
+      setRegionsWithLabel({ ...newRLable })
+      console.log('====newR,newRLable', newR, newRLable)
     },
-    [setRegions]
+    [setRegions, setRegionsWithLabel]
   )
 
   useEffect(() => {
     setRegions([...defaultRegions])
-  }, [defaultRegions])
+    setRegionsWithLabel({ ...defaultRegionsWithLable })
+  }, [defaultRegions, defaultRegionsWithLable])
 
   return (
     <Dialog
@@ -99,6 +111,7 @@ export const ROIDialog = ({
       </AppBar>
       <ROIEditContent
         regions={defaultRegions}
+        regionsWithLabel={defaultRegionsWithLable}
         onRegionsChange={handleRegionsChange}
       />
     </Dialog>

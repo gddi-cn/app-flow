@@ -76,6 +76,7 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           isRay: true
         }
         addPolygons([newLine])
+
         clearUpHelpers()
       }
     },
@@ -99,6 +100,7 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           assistRef.current.setPoint(pt.x, pt.y)
           // add lineEnd
           const { xBegin, yBegin, xEnd, yEnd } = assistRef.current.endDraw()
+          // TODO label修改
           addRoIRay({ xBegin, yBegin, xEnd, yEnd })
         }
       }

@@ -8,7 +8,7 @@ export type MyRayOption = {
   startPoint: Point
   endPoint: Point
   textContent: string
-  onTextChange: (e: fabric.IEvent) => void
+  handleLabelChange: () => void
 }
 
 const defaultOptionForGroup: fabric.IGroupOptions = {
@@ -21,15 +21,16 @@ const defaultOptionForGroup: fabric.IGroupOptions = {
   selectable: false,
   // selectable: true,
   objectCaching: false,
-  transparentCorners: false
-  // evented: true
+  transparentCorners: false,
+  evented: true
 }
 
 export class MyRay extends fabric.Group {
   private _triangle: fabric.Triangle
-  private _text: fabric.Text
+  private _text: fabric.IText
   private _selected: boolean
   private _editing: boolean
+  private _handleLabelChange: () => void
 
   constructor({
     polygonLineId,
@@ -37,7 +38,7 @@ export class MyRay extends fabric.Group {
     startPoint,
     endPoint,
     textContent,
-    onTextChange
+    handleLabelChange
   }: MyRayOption) {
     super([polygonLine], {
       ...defaultOptionForGroup,
@@ -46,10 +47,11 @@ export class MyRay extends fabric.Group {
         type: 'ray'
       }
     })
-
+    console.log('===== polygonLine', polygonLine)
     this._editing = false
     this._selected = false
     this.on('mousedblclick', this.handleDoubleClick)
+    this._handleLabelChange = handleLabelChange
 
     // angle (in radians) computed from x axis
     const angle = Math.atan2(
@@ -129,68 +131,74 @@ export class MyRay extends fabric.Group {
   // TODO 另一个思路直接在外部设置input框 修改 传入进来的content值
 
   handleDoubleClick(e: fabric.IEvent) {
-    console.log('e', e)
-
+    console.log('gourp event', e)
     console.log('double clickkkk on group')
     console.log('this._selected,this._editing', this._selected, this._editing)
+
     if (this._selected) {
-      console.log('change somethins')
+      console.log('is selected the group')
       this._editing = true
+      this._handleLabelChange()
     }
 
-    if (this._editing) {
-      let textForEditing = fabric.util.object.clone(this._text)
-      console.log('textForEditing', textForEditing)
-      textForEditing.set({
-        text: 'tessss',
-        editable: true
-      })
-      // hide group inside text
-      this._text.visible = false
-      // note important, text cannot be hidden without this
-      this.addWithUpdate()
+    // TODO 存在Itext无法编辑的bug，暂时换为dialog提示输入的交互
+    // if (this._editing) {
+    //   let textForEditing = fabric.util.object.clone(this._text)
+    //   console.log('textForEditing', textForEditing)
+    //   textForEditing.set({
+    //     text: 'tessss',
+    //     editable: true
+    //   })
+    //   // hide group inside text
+    //   this._text.visible = false
+    //   // note important, text cannot be hidden without this
+    //   this.addWithUpdate()
 
-      textForEditing.visible = true
-      // do not give controls, do not allow move/resize/rotation on this
-      textForEditing.hasControls = false
+    //   textForEditing.visible = true
+    //   // do not give controls, do not allow move/resize/rotation on this
+    //   textForEditing.hasControls = false
 
-      // now add this temp obj to canvas
-      this.canvas?.add(textForEditing)
-      this.canvas?.setActiveObject(textForEditing)
+    //   // now add this temp obj to canvas
+    //   this.canvas?.add(textForEditing)
+    //   this.canvas?.setActiveObject(textForEditing)
 
-      // make the cursor showing
-      textForEditing.enterEditing()
-      textForEditing.selectAll()
+    //   textForEditing.on('editing:entered', () => {
+    //     console.log('editing:entered======')
+    //   })
 
-      // editing:exited means you click outside of the textForEditing
-      textForEditing.on('editing:exited', () => {
-        console.log('editing:exited')
-        let newVal = textForEditing.text
-        let oldVal = this._text.text
-        console.log('newVal,oldVal', newVal, oldVal)
+    //   // editing:exited means you click outside of the textForEditing
+    //   textForEditing.on('editing:exited', () => {
+    //     console.log('editing:exited')
+    //     let newVal = textForEditing.text
+    //     let oldVal = this._text.text
+    //     console.log('newVal,oldVal', newVal, oldVal)
 
-        // then we check if text is changed
-        if (true || newVal !== oldVal) {
-          console.log('this._text.setting')
-          this._text.set({
-            text: newVal,
-            visible: true
-          })
-          // comment before, you must call this
-          this.addWithUpdate()
+    //     // then we check if text is changed
+    //     if (newVal !== oldVal) {
+    //       console.log('this._text.setting')
+    //       this._text.set({
+    //         text: newVal
+    //       })
+    //     }
+    //     this._text.visible = true
+    //     // comment before, you must call this
+    //     this.addWithUpdate()
 
-          // we do not need textForEditing anymore
-          textForEditing.visible = false
-          this.canvas?.remove(textForEditing)
+    //     // we do not need textForEditing anymore
+    //     textForEditing.visible = false
+    //     this.canvas?.remove(textForEditing)
 
-          // optional, buf for better user experience
-          // this.canvas?.setActiveObject(this)
+    //     // optional, buf for better user experience
+    //     this.canvas?.setActiveObject(this)
 
-          console.log('text for editing end')
-        }
-      })
+    //     console.log('text for editing end')
+    //   })
 
-      console.log(' double click end')
-    }
+    //   // make the cursor showing
+    //   textForEditing.enterEditing()
+    //   textForEditing.selectAll()
+
+    //   console.log(' double click end')
+    // }
   }
 }

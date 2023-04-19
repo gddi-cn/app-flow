@@ -17,7 +17,11 @@ export interface Module {
   propsInited?: PropObject
 }
 
-export type PropObject = { [propName: string]: PropValue }
+export type PropObject = {
+  [propName: string]: PropValue
+}
+
+export type regionsWithLabel = { [propName: string]: number[][] }
 
 export type ModLabelsValueType = {
   [label: string]: {
@@ -34,5 +38,6 @@ export type PropValue =
   | PropValueBaiscType[][]
   | PropValueBaiscType[][][]
   | ModLabelsValueType
+  | regionsWithLabel
 
 export type PropValueBaiscType = string | number | boolean

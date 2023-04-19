@@ -2,7 +2,6 @@ import produce from 'immer'
 import { GetState, SetState } from 'zustand'
 import { MyDRState } from './useStore'
 import { Polygon, Point } from './../types'
-import { genarateRayNumber } from '../Controls/graph'
 
 export interface DRDataSlice {
   polygons: Polygon[]
@@ -10,6 +9,7 @@ export interface DRDataSlice {
   addPolygons: (polygons: Polygon[]) => void
   deletePolygons: (ids: number[]) => void
   modifyPolygonPoints: (id: number, points: Point[]) => void
+  modifyPolygonLabel: (id: number, label: string) => void
 }
 
 const createDRDataSlice = (
@@ -20,7 +20,7 @@ const createDRDataSlice = (
   setPolygons: (polygons: Polygon[]) => {
     set(
       produce((draft: MyDRState) => {
-        draft.polygons = genarateRayNumber(polygons)
+        draft.polygons = polygons
       })
     )
   },
@@ -31,7 +31,6 @@ const createDRDataSlice = (
         polygons.forEach((polygon) => {
           draft1.polygons.push(polygon)
         })
-        draft1.polygons = genarateRayNumber(draft1.polygons)
       })
     )
   },
@@ -46,7 +45,6 @@ const createDRDataSlice = (
           }
         })
         draft1.polygons = newPolygons
-        draft1.polygons = genarateRayNumber(draft1.polygons)
       })
     )
   },
@@ -56,6 +54,17 @@ const createDRDataSlice = (
         const idx = draft.polygons.findIndex((poly) => poly.id === id)
         if (idx >= 0) {
           draft.polygons[idx].points = points
+        }
+      })
+    )
+  },
+  modifyPolygonLabel: (id: number, label: string) => {
+    set(
+      produce((draft: MyDRState) => {
+        const idx = draft.polygons.findIndex((poly) => poly.id === id)
+        console.log('modifyPolygonLabel,id,label', id, label)
+        if (idx >= 0) {
+          draft.polygons[idx].labelName = label
         }
       })
     )

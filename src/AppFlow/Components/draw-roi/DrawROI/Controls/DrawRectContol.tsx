@@ -76,7 +76,8 @@ export const DrawRectControl: ControlsElementType = ({ disabled }) => {
           ]
           const newPolygon: Polygon = {
             id: getRandomId(),
-            points
+            points,
+            labelName: 'rect_init'
           }
           addPolygons([newPolygon])
           clearUpHelpers()

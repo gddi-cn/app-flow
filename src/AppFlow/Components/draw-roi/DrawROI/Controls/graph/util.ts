@@ -1,15 +1,3 @@
-import { Polygon } from '../../types'
-
-export function genarateRayNumber(curPolygons: Polygon[]) {
-  let rayNumber = 1
-  return curPolygons.map((polygon) => {
-    return {
-      ...polygon,
-      rayNumber: polygon.points.length === 2 ? rayNumber++ : -1
-    }
-  })
-}
-
 export interface BoxCorners {
   xtl: number
   ytl: number
