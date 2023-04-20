@@ -62,7 +62,6 @@ const createDRDataSlice = (
     set(
       produce((draft: MyDRState) => {
         const idx = draft.polygons.findIndex((poly) => poly.id === id)
-        console.log('modifyPolygonLabel,id,label', id, label)
         if (idx >= 0) {
           draft.polygons[idx].labelName = label
         }

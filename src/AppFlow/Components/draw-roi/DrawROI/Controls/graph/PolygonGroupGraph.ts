@@ -1,8 +1,7 @@
 import { fabric } from 'fabric'
-import { Point, Polygon } from '../../types'
+import { Polygon } from '../../types'
 import { MyPolygon } from './PolygonGraph'
 
-// TODO 新增一个group控制MyPolygon显示文本
 export type MyPolygonWithLabelOption = {
   polygon: Polygon
   polygonObj: MyPolygon
@@ -62,15 +61,34 @@ export class MyPolygonWithLabel extends fabric.Group {
     this.canvas?.requestRenderAll()
   }
 
-  //   TODO 处理双击选中哪个对象
-  //   TODO 存在问题，group移动后，各个点的位置没有触发保存；
+  public get editing() {
+    return this._editing
+  }
+
+  public set editing(isEditing: boolean) {
+    this._editing = isEditing
+    if (isEditing === false) {
+      this._selected = false
+    }
+  }
+
+  //   TODO 处理双击选中哪个对象,是否需要多边形的各个点的编辑模式
   onSelect(): boolean {
     console.log('onSelect on the poly group')
     this._selected = true
     return false
   }
+  onDeselect(): boolean {
+    console.log('onDeselect')
+
+    this._selected = false
+    this._editing = false
+    return false
+  }
+
   handleDoubleClick(e: fabric.IEvent) {
     console.log('double clickkkk on group = gourp event', e)
+    console.log('this._selected,this._editing', this._selected, this._editing)
 
     if (this._selected) {
       console.log('is selected the group')

@@ -71,7 +71,7 @@ export const ROINodeBody = ({
 
   const propObj = nodeData.props as PropObject
   const regions = propObj['regions'] as number[][][]
-  // TODO 添加带有标签的regions
+  // regions object with their labels
   let regionsWithLabel = {}
   if (
     propObj['regionsWithLabel'] &&

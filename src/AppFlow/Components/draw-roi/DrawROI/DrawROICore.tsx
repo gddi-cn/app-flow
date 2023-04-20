@@ -184,7 +184,6 @@ export function DrawROICore({
         imgWH.height,
         defaultRegionsWithLabel
       )
-      console.log('setPolygons polys', polys)
       setPolygons(polys)
     }
   }, [setPolygons, defaultROIs, imgWH, defaultRegionsWithLabel])
@@ -298,13 +297,14 @@ export function DrawROICore({
     (polygon: Polygon, newLabel: string): void => {
       modifyPolygonLabel(polygon.id, newLabel)
     },
-    []
+    [modifyPolygonLabel]
   )
 
   const polygonComponentList = useMemo(() => {
-    return polygons.map((polygon) => (
+    return polygons.map((polygon, index) => (
       <PolygonComponent
         key={polygon.id}
+        dataIndex={index}
         polygon={polygon}
         onLabelChange={onLabelChange}
       />

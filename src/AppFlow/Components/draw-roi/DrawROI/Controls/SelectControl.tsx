@@ -12,9 +12,11 @@ import ToggleButton from '@mui/material/ToggleButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
 import { MyPolygon, MyRay } from './graph'
+import { MyPolygonWithLabel } from './graph'
 
 export const SelectControl: ControlsElementType = ({ disabled }) => {
   const {
+    polygons,
     fabCanvas,
     controlMode,
     setControlMode,
@@ -24,6 +26,7 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     modifyPolygonPoints
   } = useStore(
     (state) => ({
+      polygons: state.polygons,
       fabCanvas: state.fabCanvas,
       controlMode: state.controlMode,
       setControlMode: state.setControlMode,
@@ -48,20 +51,14 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
       if (
         fabCanvas.getActiveObject() &&
         fabCanvas.getActiveObject().data &&
-        fabCanvas.getActiveObject().data.type === 'ray'
+        ['ray', 'polygonGroup', 'polygon'].indexOf(
+          fabCanvas.getActiveObject().data.type
+        ) !== -1
       ) {
-        const selectedPolygon = fabCanvas.getActiveObject() as MyRay
-
-        fabCanvas.discardActiveObject()
-        fabCanvas.renderAll()
-      }
-
-      if (
-        fabCanvas.getActiveObject() &&
-        fabCanvas.getActiveObject().data &&
-        fabCanvas.getActiveObject().data.type === 'polygon'
-      ) {
-        const selectedPolygon = fabCanvas.getActiveObject() as MyPolygon
+        const selectedPolygon = fabCanvas.getActiveObject() as
+          | MyRay
+          | MyPolygonWithLabel
+          | MyPolygon
         selectedPolygon.editing = false
         fabCanvas.discardActiveObject()
         fabCanvas.renderAll()
@@ -74,12 +71,14 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
       if (
         fabCanvas.getActiveObject() &&
         fabCanvas.getActiveObject().data &&
-        (fabCanvas.getActiveObject().data.type === 'polygon' ||
-          fabCanvas.getActiveObject().data.type === 'ray')
+        ['ray', 'polygonGroup', 'polygon'].indexOf(
+          fabCanvas.getActiveObject().data.type
+        ) !== -1
       ) {
         const selectedPolygon = fabCanvas.getActiveObject() as
+          | MyRay
+          | MyPolygonWithLabel
           | MyPolygon
-          | fabric.Group
         deletePolygons([selectedPolygon.data.id])
       }
     }
@@ -124,9 +123,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
           }
         }
 
-        const handleObjModifiedForRay = () => {
-          const groupObj = obj as MyRay
-
+        const handleObjModifiedForPolyGroup = () => {
+          const groupObj = obj as MyRay | MyPolygonWithLabel
           if (groupObj.data) {
             const polygonObj = groupObj
               ?.getObjects()
@@ -160,8 +158,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
           if (obj.data.type === 'polygon') {
             obj.on('modified', handleObjModified)
           }
-          if (obj.data.type === 'ray') {
-            obj.on('modified', handleObjModifiedForRay)
+          if (['ray', 'polygonGroup'].indexOf(obj.data.type) !== -1) {
+            obj.on('modified', handleObjModifiedForPolyGroup)
           }
         }
       })
@@ -196,7 +194,8 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     onMouseDown,
     onMouseMove,
     setMouseDownHandler,
-    setMouseMoveHandler
+    setMouseMoveHandler,
+    fabCanvas?.getObjects()
   ])
 
   return (

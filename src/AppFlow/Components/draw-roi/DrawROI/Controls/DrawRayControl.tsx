@@ -100,7 +100,8 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           assistRef.current.setPoint(pt.x, pt.y)
           // add lineEnd
           const { xBegin, yBegin, xEnd, yEnd } = assistRef.current.endDraw()
-          // TODO label修改
+
+          // TODO 每次新画完一条线 需要给线命名,label修改
           addRoIRay({ xBegin, yBegin, xEnd, yEnd })
         }
       }

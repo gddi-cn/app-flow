@@ -54,7 +54,6 @@ export const ROIDialog = ({
   const [regions, setRegions] = useState<number[][][]>([])
   const [regionsWithLabel, setRegionsWithLabel] = useState<regionsWithLabel>({})
 
-  // TODO 处理defaultRegionsWithlable的逻辑
   const handleClose = useCallback(() => {
     setRegions([...defaultRegions])
     setRegionsWithLabel({ ...defaultRegionsWithLable })

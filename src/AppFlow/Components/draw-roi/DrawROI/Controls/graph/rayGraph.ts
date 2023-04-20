@@ -19,7 +19,6 @@ const defaultOptionForGroup: fabric.IGroupOptions = {
   originX: 'center',
   originY: 'center',
   selectable: false,
-  // selectable: true,
   objectCaching: false,
   transparentCorners: false,
   evented: true
@@ -47,7 +46,6 @@ export class MyRay extends fabric.Group {
         type: 'ray'
       }
     })
-    console.log('===== polygonLine', polygonLine)
     this._editing = false
     this._selected = false
     this.on('mousedblclick', this.handleDoubleClick)
@@ -113,92 +111,54 @@ export class MyRay extends fabric.Group {
 
     this.setCoords()
     this.canvas?.requestRenderAll()
+    this.canvas?.setActiveObject(this)
   }
+
+  public get editing() {
+    return this._editing
+  }
+
+  public set editing(isEditing: boolean) {
+    this._editing = isEditing
+    if (isEditing === false) {
+      this._selected = false
+    }
+  }
+
   onSelect(): boolean {
-    console.log('onSelect')
     this._selected = true
+    console.log(
+      'onSelect=this._selected,this._editing',
+      this._selected,
+      this._editing
+    )
     return false
   }
 
-  // onDeselect(): boolean {
-  //   console.log('onDeselect')
-  //   if (!this._editing) {
-  //     this._selected = false
-  //     return false
-  //   }
-  //   return true
-  // }
-  // TODO 另一个思路直接在外部设置input框 修改 传入进来的content值
+  onDeselect(): boolean {
+    // this._editing = false
+    this._selected = false
+    console.log(
+      'onDeselect =this._selected,this._editing',
+      this._selected,
+      this._editing
+    )
+    return false
+  }
 
   handleDoubleClick(e: fabric.IEvent) {
     console.log('gourp event', e)
-    console.log('double clickkkk on group')
-    console.log('this._selected,this._editing', this._selected, this._editing)
 
     if (this._selected) {
-      console.log('is selected the group')
+      console.log('is selected the group and handleLabelchange')
       this._editing = true
       this._handleLabelChange()
     }
 
-    // TODO 存在Itext无法编辑的bug，暂时换为dialog提示输入的交互
-    // if (this._editing) {
-    //   let textForEditing = fabric.util.object.clone(this._text)
-    //   console.log('textForEditing', textForEditing)
-    //   textForEditing.set({
-    //     text: 'tessss',
-    //     editable: true
-    //   })
-    //   // hide group inside text
-    //   this._text.visible = false
-    //   // note important, text cannot be hidden without this
-    //   this.addWithUpdate()
-
-    //   textForEditing.visible = true
-    //   // do not give controls, do not allow move/resize/rotation on this
-    //   textForEditing.hasControls = false
-
-    //   // now add this temp obj to canvas
-    //   this.canvas?.add(textForEditing)
-    //   this.canvas?.setActiveObject(textForEditing)
-
-    //   textForEditing.on('editing:entered', () => {
-    //     console.log('editing:entered======')
-    //   })
-
-    //   // editing:exited means you click outside of the textForEditing
-    //   textForEditing.on('editing:exited', () => {
-    //     console.log('editing:exited')
-    //     let newVal = textForEditing.text
-    //     let oldVal = this._text.text
-    //     console.log('newVal,oldVal', newVal, oldVal)
-
-    //     // then we check if text is changed
-    //     if (newVal !== oldVal) {
-    //       console.log('this._text.setting')
-    //       this._text.set({
-    //         text: newVal
-    //       })
-    //     }
-    //     this._text.visible = true
-    //     // comment before, you must call this
-    //     this.addWithUpdate()
-
-    //     // we do not need textForEditing anymore
-    //     textForEditing.visible = false
-    //     this.canvas?.remove(textForEditing)
-
-    //     // optional, buf for better user experience
-    //     this.canvas?.setActiveObject(this)
-
-    //     console.log('text for editing end')
-    //   })
-
-    //   // make the cursor showing
-    //   textForEditing.enterEditing()
-    //   textForEditing.selectAll()
-
-    //   console.log(' double click end')
-    // }
+    console.log(
+      'double clickkkk on group=this._selected,this._editing',
+      this._selected,
+      this._editing
+    )
   }
 }

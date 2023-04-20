@@ -8,41 +8,46 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContentText,
   DialogTitle,
   TextField
 } from '@mui/material'
-import { MyPolygonWithLabel } from '../Controls/graph/PolygonGroupGraph'
+import { MyPolygonWithLabel } from '../Controls/graph'
 
 export interface PolygonProps {
   polygon: Polygon
+  dataIndex: number
   onLabelChange: (polygon: Polygon, newLabel: string) => void
 }
 
 export const PolygonComponent = ({
   polygon,
+  dataIndex,
   onLabelChange
 }: PolygonProps): JSX.Element => {
   const { fabCanvas } = useStore(
-    (state) => ({ fabCanvas: state.fabCanvas }),
+    (state) => ({
+      fabCanvas: state.fabCanvas
+    }),
     shallow
   )
   const objRef = useRef<MyPolygonWithLabel | undefined>()
   const rayRef = useRef<fabric.Group | undefined>()
   const [diaOpen, setDiaOpen] = useState<boolean>(false)
   const [labelName, setLabelName] = useState<string>(
-    polygon?.labelName ?? 'label_init'
+    polygon?.labelName ?? 'init_label_' + dataIndex
   )
-
   const handleClickOpen = () => {
     setDiaOpen(true)
   }
 
   const handleClose = () => {
+    // click dialog close button, reInit the label value in dialog
+    setLabelName(polygon?.labelName ?? 'init_label_')
     setDiaOpen(false)
   }
   const handleOK = () => {
-    // TODO 把当前的labelName进行更新
+    // Verification: Labels with the same name are not allowed
+
     onLabelChange(polygon, labelName)
     setDiaOpen(false)
   }
@@ -53,8 +58,6 @@ export const PolygonComponent = ({
       return
     }
     if (objRef.current === undefined) {
-      // TODO 对MyPolygon同样需要新增label的显示和编辑功能
-
       if (polygon?.isRay) {
         const currentObj = new MyPolygon({
           id: polygon.id,
@@ -89,6 +92,7 @@ export const PolygonComponent = ({
 
       fabCanvas.requestRenderAll()
     }
+
     return () => {
       // console.log(`polygonComponent useEffect - return`)
       if (fabCanvas && objRef.current) {
@@ -102,12 +106,12 @@ export const PolygonComponent = ({
     }
   }, [polygon.id, polygon.labelName])
 
+  // TODO 逻辑画新线的时候显示让其输入文本？
   // TODO 在命名这里新增校验；不能为空，是否可以重复 不可以？重复的话需要改结构？
   return (
     <>
       <Dialog open={diaOpen} onClose={handleClose} fullWidth>
         <DialogTitle>Change Label Name</DialogTitle>
-
         <TextField
           placeholder="Please name a label for this ROI region."
           value={labelName}
