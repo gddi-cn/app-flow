@@ -3838,13 +3838,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.178":
-  version: 4.14.192
-  resolution: "@types/lodash@npm:4.14.192"
-  checksum: b04e16a4ba1d3a9be73c806214d6ad3ac630afd7bd1222bb5e4ac1d90bbfef1a2e0d6aac3c8733b23bcdfa6f3ebee5817e66df465ada132c2eedc55d31bc45c3
-  languageName: node
-  linkType: hard
-
 "@types/mdast@npm:^3.0.0":
   version: 3.0.11
   resolution: "@types/mdast@npm:3.0.11"
@@ -8568,7 +8561,6 @@ __metadata:
     "@storybook/react": "npm:^6.4.19"
     "@storybook/storybook-deployer": "npm:^2.8.11"
     "@types/fabric": "npm:^4.5.7"
-    "@types/lodash": "npm:^4.14.178"
     "@typescript-eslint/eslint-plugin": "npm:^5.4.0"
     "@typescript-eslint/parser": "npm:^5.4.0"
     babel-loader: "npm:^8.2.3"
@@ -8582,7 +8574,6 @@ __metadata:
     fp-ts: "npm:^2.11.10"
     immer: "npm:^9.0.12"
     io-ts: "npm:^2.2.16"
-    lodash: "npm:^4.17.21"
     postcss: "npm:^8.4.12"
     prettier: "npm:^2.4.1"
     react: "npm:^18.1.0"

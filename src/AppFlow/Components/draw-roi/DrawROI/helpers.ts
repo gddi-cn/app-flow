@@ -44,6 +44,7 @@ export function ROIsToPolygons(
       polys.push(newPoly)
     })
   }
+  console.log('polys===', polys)
 
   return polys
 }

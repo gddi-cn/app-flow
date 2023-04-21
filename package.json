@@ -28,7 +28,6 @@
     "@storybook/addon-links": "^6.4.19",
     "@storybook/react": "^6.4.19",
     "@storybook/storybook-deployer": "^2.8.11",
-    "@types/lodash": "^4.14.178",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^8.2.3",
@@ -71,7 +70,6 @@
     "fabric": "^4.6.0",
     "fp-ts": "^2.11.10",
     "io-ts": "^2.2.16",
-    "lodash": "^4.17.21",
     "react-colorful": "^5.5.1",
     "react-flow-renderer": "^10.3.8",
     "react-images-uploading": "^3.1.3"

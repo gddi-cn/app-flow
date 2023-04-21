@@ -16,7 +16,6 @@ import { MyPolygonWithLabel } from './graph'
 
 export const SelectControl: ControlsElementType = ({ disabled }) => {
   const {
-    polygons,
     fabCanvas,
     controlMode,
     setControlMode,
@@ -26,7 +25,6 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     modifyPolygonPoints
   } = useStore(
     (state) => ({
-      polygons: state.polygons,
       fabCanvas: state.fabCanvas,
       controlMode: state.controlMode,
       setControlMode: state.setControlMode,

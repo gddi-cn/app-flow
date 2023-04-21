@@ -72,17 +72,29 @@ export const ROINodeBody = ({
   const propObj = nodeData.props as PropObject
   const regions = propObj['regions'] as number[][][]
   // regions object with their labels
+  // default regionsWithLabel made by regions tramsform
   let regionsWithLabel = {}
   if (
     propObj['regionsWithLabel'] &&
     Object.keys(propObj['regionsWithLabel']).length !== 0
   ) {
     regionsWithLabel = propObj['regionsWithLabel'] as regionsWithLabel
+  } else {
+    regions.forEach((region, index) => {
+      regionsWithLabel = {
+        ...regionsWithLabel,
+        ...{
+          ['init_label_' + index]: region
+        }
+      }
+    })
   }
+
   console.log(
-    'init regionsWithLabel in ROIBODY  ,propObj',
-    regionsWithLabel,
-    propObj
+    'init===propObj,regions,regionsWithLabel',
+    propObj,
+    regions,
+    regionsWithLabel
   )
 
   useEffect(() => {

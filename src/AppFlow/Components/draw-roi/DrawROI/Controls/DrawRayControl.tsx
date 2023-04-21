@@ -12,6 +12,7 @@ import { DrawRayAssistant, MyCircle } from './graph'
 export const DrawRayControl: ControlsElementType = ({ disabled }) => {
   // gain values and functions from store
   const {
+    polygons,
     controlMode,
     setControlMode,
     fabCanvas,
@@ -21,6 +22,7 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
     setMouseMoveHandler
   } = useStore(
     (state) => ({
+      polygons: state.polygons,
       controlMode: state.controlMode,
       setControlMode: state.setControlMode,
       fabCanvas: state.fabCanvas,
@@ -70,10 +72,12 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           { x: xBegin, y: yBegin },
           { x: xEnd, y: yEnd }
         ]
+        const curNewId = getRandomId()
         const newLine: Polygon = {
-          id: getRandomId(),
+          id: curNewId,
           points,
-          isRay: true
+          isRay: true,
+          labelName: 'new_label_' + curNewId
         }
         addPolygons([newLine])
 
