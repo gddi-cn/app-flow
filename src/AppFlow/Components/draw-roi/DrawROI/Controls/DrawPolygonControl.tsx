@@ -20,7 +20,9 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     imgWH,
     addPolygons,
     setMouseDownHandler,
-    setMouseMoveHandler
+    setMouseMoveHandler,
+    setDialogPolygonOpen,
+    setDialogPolygon
   } = useStore(
     (state) => ({
       controlMode: state.controlMode,
@@ -29,7 +31,9 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
       imgWH: state.imgWH,
       addPolygons: state.addPolygons,
       setMouseDownHandler: state.setMouseDownHandler,
-      setMouseMoveHandler: state.setMouseMoveHandler
+      setMouseMoveHandler: state.setMouseMoveHandler,
+      setDialogPolygonOpen: state.setDialogPolygonOpen,
+      setDialogPolygon: state.setDialogPolygon
     }),
     shallow
   )
@@ -85,11 +89,16 @@ export const DrawPolygonControl: ControlsElementType = ({ disabled }) => {
     circles.forEach((circle) => {
       points.push({ x: circle.left || 0, y: circle.top || 0 })
     })
+    const curNewId = getRandomId()
     const newPolygon: Polygon = {
-      id: getRandomId(),
-      points
+      id: curNewId,
+      points,
+      labelName: 'new_label_' + curNewId
     }
     addPolygons([newPolygon])
+    // show dialog to edit the labelName
+    setDialogPolygon(newPolygon)
+    setDialogPolygonOpen(true)
 
     clearUpHelpers()
   }, [

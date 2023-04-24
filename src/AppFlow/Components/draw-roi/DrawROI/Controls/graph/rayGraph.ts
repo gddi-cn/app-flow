@@ -26,10 +26,10 @@ const defaultOptionForGroup: fabric.IGroupOptions = {
 
 export class MyRay extends fabric.Group {
   private _triangle: fabric.Triangle
-  private _text: fabric.IText
   private _selected: boolean
   private _editing: boolean
-  private _handleLabelChange: () => void
+  public _text: fabric.Text
+  public _handleLabelChange: () => void
 
   constructor({
     polygonLineId,
@@ -93,13 +93,12 @@ export class MyRay extends fabric.Group {
       angle: angle * (180 / Math.PI) + 90
     })
     //  editable text
-    this._text = new fabric.IText(textContent, {
+    this._text = new fabric.Text(textContent, {
       fontSize: 16,
       fill: 'black',
       left: triangleLeft,
       top: triangleTop,
-      backgroundColor: '#d5e3f9',
-      editable: true
+      backgroundColor: '#d5e3f9'
     })
 
     // Add triangles and text to the Group object
@@ -127,38 +126,19 @@ export class MyRay extends fabric.Group {
 
   onSelect(): boolean {
     this._selected = true
-    console.log(
-      'onSelect=this._selected,this._editing',
-      this._selected,
-      this._editing
-    )
     return false
   }
 
   onDeselect(): boolean {
     // this._editing = false
     this._selected = false
-    console.log(
-      'onDeselect =this._selected,this._editing',
-      this._selected,
-      this._editing
-    )
     return false
   }
 
   handleDoubleClick(e: fabric.IEvent) {
-    console.log('gourp event', e)
-
     if (this._selected) {
-      console.log('is selected the group and handleLabelchange')
       this._editing = true
       this._handleLabelChange()
     }
-
-    console.log(
-      'double clickkkk on group=this._selected,this._editing',
-      this._selected,
-      this._editing
-    )
   }
 }

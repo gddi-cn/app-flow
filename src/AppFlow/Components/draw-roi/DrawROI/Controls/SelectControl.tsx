@@ -87,12 +87,9 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
     // console.log(opt.target)
   }, [])
 
-  const onMouseMove = useCallback(
-    (opt: fabric.IEvent) => {
-      //   console.log(`move 🍟`)
-    },
-    [fabCanvas]
-  )
+  const onMouseMove = useCallback((opt: fabric.IEvent) => {
+    //   console.log(`move 🍟`)
+  }, [])
 
   const init = useCallback(() => {
     if (fabCanvas) {
@@ -187,13 +184,13 @@ export const SelectControl: ControlsElementType = ({ disabled }) => {
         setMouseMoveHandler(undefined)
       }
     }
+    return
   }, [
     controlMode,
     onMouseDown,
     onMouseMove,
     setMouseDownHandler,
-    setMouseMoveHandler,
-    fabCanvas?.getObjects()
+    setMouseMoveHandler
   ])
 
   return (

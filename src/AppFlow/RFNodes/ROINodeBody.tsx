@@ -48,11 +48,10 @@ export const ROINodeBody = ({
     (okVal: number[][][], okLables: regionsWithLabel) => {
       setDialogOpen(false)
       modifyModuleProp(nodeData.id, 'regions', [...okVal])
-      console.log('onOK===okVal,', okVal, okLables)
       if (!okLables) {
-        modifyModuleProp(nodeData.id, 'regionsWithLabel', {})
+        modifyModuleProp(nodeData.id, 'regions_with_label', {})
       } else {
-        modifyModuleProp(nodeData.id, 'regionsWithLabel', { ...okLables })
+        modifyModuleProp(nodeData.id, 'regions_with_label', { ...okLables })
       }
     },
     [nodeData.id, modifyModuleProp]
@@ -75,27 +74,20 @@ export const ROINodeBody = ({
   // default regionsWithLabel made by regions tramsform
   let regionsWithLabel = {}
   if (
-    propObj['regionsWithLabel'] &&
-    Object.keys(propObj['regionsWithLabel']).length !== 0
+    propObj['regions_with_label'] &&
+    Object.keys(propObj['regions_with_label']).length !== 0
   ) {
-    regionsWithLabel = propObj['regionsWithLabel'] as regionsWithLabel
+    regionsWithLabel = propObj['regions_with_label'] as regionsWithLabel
   } else {
     regions.forEach((region, index) => {
       regionsWithLabel = {
         ...regionsWithLabel,
         ...{
-          ['init_label_' + index]: region
+          ['' + index]: region
         }
       }
     })
   }
-
-  console.log(
-    'init===propObj,regions,regionsWithLabel',
-    propObj,
-    regions,
-    regionsWithLabel
-  )
 
   useEffect(() => {
     setFetchROIImgLoading(true)

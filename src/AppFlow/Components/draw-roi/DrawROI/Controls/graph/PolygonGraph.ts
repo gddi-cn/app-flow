@@ -218,7 +218,7 @@ export class MyPolygon extends fabric.Polygon {
   }
 
   onSelect(): boolean {
-    // console.log('onSelect')
+    // console.log('onSelect this polygonGraph')
     this._selected = true
     this._updateControls()
     return false

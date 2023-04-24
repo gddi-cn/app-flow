@@ -5,6 +5,10 @@ import { Polygon, Point } from './../types'
 
 export interface DRDataSlice {
   polygons: Polygon[]
+  dialogPolygonOpen: boolean
+  dialogPolygon: Polygon
+  setDialogPolygonOpen: (diaOpen: boolean) => void
+  setDialogPolygon: (polygon: Polygon) => void
   setPolygons: (polygons: Polygon[]) => void
   addPolygons: (polygons: Polygon[]) => void
   deletePolygons: (ids: number[]) => void
@@ -17,6 +21,22 @@ const createDRDataSlice = (
   get: GetState<MyDRState>
 ): DRDataSlice => ({
   polygons: [],
+  dialogPolygonOpen: false,
+  dialogPolygon: {} as Polygon,
+  setDialogPolygonOpen: (diaOpen: boolean) => {
+    set(
+      produce((draft: MyDRState) => {
+        draft.dialogPolygonOpen = diaOpen
+      })
+    )
+  },
+  setDialogPolygon: (polygon: Polygon) => {
+    set(
+      produce((draft: MyDRState) => {
+        draft.dialogPolygon = polygon
+      })
+    )
+  },
   setPolygons: (polygons: Polygon[]) => {
     set(
       produce((draft: MyDRState) => {

@@ -5,7 +5,7 @@ import { useStore } from './store/useStore'
 import shallow from 'zustand/shallow'
 import { SelectControl } from './Controls'
 import { ROIsToPolygons } from './helpers'
-import { PolygonComponent } from './ObjectComponents'
+import { PolygonComponent, PolygonDialog } from './ObjectComponents'
 
 import Box from '@mui/material/Box'
 
@@ -46,6 +46,7 @@ export function DrawROICore({
   const {
     fabCanvas,
     polygons,
+    dialogPolygonOpen,
     // mainImage,
     imgWH,
     // imgWidth,
@@ -62,6 +63,7 @@ export function DrawROICore({
     (state) => ({
       fabCanvas: state.fabCanvas,
       polygons: state.polygons,
+      dialogPolygonOpen: state.dialogPolygonOpen,
       // mainImage: state.mainImage,
       imgWH: state.imgWH,
       setImgWH: state.setImgWH,
@@ -197,14 +199,14 @@ export function DrawROICore({
           pt.y / imgWH.height
         ])
       })
-      // TODO update the regionsWithLabel,label相同会有冲突,后者覆盖前者
       let newRegionsWithLabel: regionsWithLabel = {}
       polygons.forEach((poly: Polygon, index) => {
         newRegionsWithLabel = {
           ...newRegionsWithLabel,
           ...{
-            [poly.labelName ? poly.labelName : 'init_label_' + index]:
-              poly.points.map((pt) => [pt.x / imgWH.width, pt.y / imgWH.height])
+            [poly.labelName ? poly.labelName : '' + index]: poly.points.map(
+              (pt) => [pt.x / imgWH.width, pt.y / imgWH.height]
+            )
           }
         }
       })
@@ -302,14 +304,9 @@ export function DrawROICore({
 
   const polygonComponentList = useMemo(() => {
     return polygons.map((polygon, index) => (
-      <PolygonComponent
-        key={polygon.id}
-        dataIndex={index}
-        polygon={polygon}
-        onLabelChange={onLabelChange}
-      />
+      <PolygonComponent key={polygon.id} dataIndex={index} polygon={polygon} />
     ))
-  }, [polygons.length, polygons, onLabelChange])
+  }, [polygons.length, polygons])
 
   useEventListener('mouse:wheel', handleCanvasWheel, fabCanvas)
   useEventListener('mouse:down', handleCanvasDown, fabCanvas)
@@ -324,6 +321,12 @@ export function DrawROICore({
         {fabCanvas !== undefined && children}
       </Box>
       {fabCanvas !== undefined && polygonComponentList}
+      {dialogPolygonOpen && (
+        <PolygonDialog
+          openDialog={dialogPolygonOpen}
+          onLabelChange={onLabelChange}
+        ></PolygonDialog>
+      )}
     </>
   )
 }

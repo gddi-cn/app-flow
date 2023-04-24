@@ -68,7 +68,6 @@ export const ROIDialog = ({
     (newR: number[][][], newRLable: regionsWithLabel) => {
       setRegions((old) => [...newR])
       setRegionsWithLabel({ ...newRLable })
-      console.log('====newR,newRLable', newR, newRLable)
     },
     [setRegions, setRegionsWithLabel]
   )

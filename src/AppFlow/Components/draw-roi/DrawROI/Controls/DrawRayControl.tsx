@@ -19,7 +19,9 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
     imgWH,
     addPolygons,
     setMouseDownHandler,
-    setMouseMoveHandler
+    setMouseMoveHandler,
+    setDialogPolygonOpen,
+    setDialogPolygon
   } = useStore(
     (state) => ({
       polygons: state.polygons,
@@ -29,7 +31,9 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
       imgWH: state.imgWH,
       addPolygons: state.addPolygons,
       setMouseDownHandler: state.setMouseDownHandler,
-      setMouseMoveHandler: state.setMouseMoveHandler
+      setMouseMoveHandler: state.setMouseMoveHandler,
+      setDialogPolygonOpen: state.setDialogPolygonOpen,
+      setDialogPolygon: state.setDialogPolygon
     }),
     shallow
   )
@@ -80,6 +84,9 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           labelName: 'new_label_' + curNewId
         }
         addPolygons([newLine])
+        // show dialog to edit the labelName
+        setDialogPolygon(newLine)
+        setDialogPolygonOpen(true)
 
         clearUpHelpers()
       }
@@ -105,7 +112,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
           // add lineEnd
           const { xBegin, yBegin, xEnd, yEnd } = assistRef.current.endDraw()
 
-          // TODO 每次新画完一条线 需要给线命名,label修改
           addRoIRay({ xBegin, yBegin, xEnd, yEnd })
         }
       }
@@ -136,7 +142,6 @@ export const DrawRayControl: ControlsElementType = ({ disabled }) => {
     },
     []
   )
-
   useEffect(() => {
     if (controlMode === 'drawRay') {
       setMouseDownHandler(onMouseDown)
