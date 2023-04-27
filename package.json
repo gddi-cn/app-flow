@@ -83,7 +83,7 @@
     "serve-storybook": "npx http-server ./storybook-static",
     "deploy-storybook": "storybook-to-ghpages --out=.out --remote=origin --source-branch=main",
     "publish-npm": "npm publish --registry https://registry.npmjs.org",
-    "build-publish": "npm version patch && yarn run build && yarn run publish-npm"
+    "build-publish": "rm -rf dist && npm version patch && yarn run build && yarn run publish-npm"
   },
   "storybook-deployer": {
     "gitUsername": "GH Pages Bot",

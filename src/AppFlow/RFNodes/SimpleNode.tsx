@@ -148,7 +148,10 @@ const SimpleNode0 = ({ data }: SimpleNodeProps): JSX.Element => {
       )
     }
 
-    if (nodeData.type.toLocaleLowerCase().includes('roi')) {
+    if (
+      nodeData.type.toLocaleLowerCase().includes('roi') ||
+      nodeData.type.toLocaleLowerCase().includes('cross')
+    ) {
       return (
         <ROINodeBody
           nodeData={nodeData as Module}
