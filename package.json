@@ -1,6 +1,6 @@
 {
   "name": "gddi-app-flow-pro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A React component to visualize GDDi's AI Apps in a flow chart fashion",
   "homepage": "https://gddi-cn.github.io/gddi-app-flow/",
   "main": "dist/cjs/index.js",
@@ -82,7 +82,7 @@
     "build-storybook": "build-storybook",
     "serve-storybook": "npx http-server ./storybook-static",
     "deploy-storybook": "storybook-to-ghpages --out=.out --remote=origin --source-branch=main",
-    "publish-npm": "yarn publish --registry https://registry.npmjs.org"
+    "publish-npm": "npm publish --registry https://registry.npmjs.org"
   },
   "storybook-deployer": {
     "gitUsername": "GH Pages Bot",
