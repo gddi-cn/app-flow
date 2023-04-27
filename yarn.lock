@@ -8539,9 +8539,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gddi-app-flow@workspace:.":
+"gddi-app-flow-pro@workspace:.":
   version: 0.0.0-use.local
-  resolution: "gddi-app-flow@workspace:."
+  resolution: "gddi-app-flow-pro@workspace:."
   dependencies:
     "@babel/core": "npm:^7.16.0"
     "@emotion/react": "npm:^11.7.1"

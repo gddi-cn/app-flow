@@ -1,6 +1,6 @@
 {
-  "name": "gddi-app-flow",
-  "version": "0.0.2",
+  "name": "gddi-app-flow-pro",
+  "version": "0.0.1",
   "description": "A React component to visualize GDDi's AI Apps in a flow chart fashion",
   "homepage": "https://gddi-cn.github.io/gddi-app-flow/",
   "main": "dist/cjs/index.js",

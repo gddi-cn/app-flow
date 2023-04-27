@@ -6,7 +6,7 @@ A React component to visualize and edit GDDi's AI APPs.
 ## Installation
 
 ```shell
-yarn add app-flow
+yarn add gddi-app-flow-pro
 ```
 
 ## Simple Usage
