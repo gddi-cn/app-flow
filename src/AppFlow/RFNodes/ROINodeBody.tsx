@@ -69,7 +69,7 @@ export const ROINodeBody = ({
   )
 
   const propObj = nodeData.props as PropObject
-  const regions = propObj['regions'] as number[][][]
+  const regions = (propObj['regions'] as number[][][]) || []
   // regions object with their labels
   // default regionsWithLabel made by regions tramsform
   let regionsWithLabel = {}
@@ -79,7 +79,7 @@ export const ROINodeBody = ({
   ) {
     regionsWithLabel = propObj['regions_with_label'] as regionsWithLabel
   } else {
-    regions.forEach((region, index) => {
+    regions?.forEach((region, index) => {
       regionsWithLabel = {
         ...regionsWithLabel,
         ...{

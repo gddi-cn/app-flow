@@ -1,0 +1,257 @@
+{
+  "version": "v0",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "Demuxer_v2",
+      "name": "Demuxer_v2_0",
+      "runner": "Decoder_v2_1",
+      "props": { "stream_url": "" }
+    },
+    {
+      "id": 1,
+      "type": "Decoder_v2",
+      "name": "Decoder_v2_1",
+      "runner": "Decoder_v2_1",
+      "props": { "hw_type": 2 }
+    },
+    {
+      "id": 2,
+      "type": "AvToCv_v2",
+      "name": "AvToCv_v2_2",
+      "runner": "default"
+    },
+    {
+      "id": 3,
+      "type": "DetectionModel_v2",
+      "name": "目标检测模块",
+      "runner": "Detection",
+      "props": {
+        "mod_iter_id": "fe133",
+        "mod_labels": {
+          "lucy": {
+            "label": "lucy",
+            "checked": true,
+            "color": [191, 219, 50]
+          },
+          "tom": {
+            "label": "tom",
+            "checked": true,
+            "color": [255, 255, 0]
+          },
+          "lily": {
+            "label": "lily",
+            "checked": true,
+            "color": [202, 175, 50]
+          },
+          "almond": {
+            "label": "almond",
+            "checked": true,
+            "color": [131, 57, 171]
+          },
+          "black": {
+            "label": "black",
+            "checked": true,
+            "color": [255, 143, 151]
+          },
+          "daisy": {
+            "label": "daisy",
+            "checked": true,
+            "color": [242, 222, 174]
+          },
+          "clark": {
+            "label": "clark",
+            "checked": true,
+            "color": [81, 169, 165]
+          },
+          "rosenburg": {
+            "label": "rosenburg",
+            "checked": true,
+            "color": [71, 99, 30]
+          },
+          "alexander the great": {
+            "label": "alexander the great",
+            "checked": true,
+            "color": [255, 255, 0]
+          }
+        },
+        "mod_id": "0",
+        "mod_name": "检测丑陋动物",
+        "mod_created_at": "2022-04-22T07:23:29.392Z",
+        "mod_version": "1.2",
+        "mod_version_id": "1",
+        "mod_license": "",
+        "mod_result_id": "133"
+      }
+    },
+    {
+      "id": 11,
+      "type": "ClassificationModel_v2",
+      "name": "分类模块",
+      "runner": "Classification",
+      "props": {
+        "mod_iter_id": "112",
+        "mod_labels": {
+          "aa": {},
+          "bb": {
+            "checked": true
+          }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": "PoseModel_v2",
+      "name": "姿态检测💃🏻模块",
+      "runner": "default",
+      "props": {
+        "mod_iter_id": "113",
+        "mod_labels": {
+          "aa": {},
+          "bb": {
+            "checked": true
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "ROI_v2",
+      "name": "ROI区域划分",
+      "runner": "default",
+      "props": {
+        "dinner": "🍌🍔🍟🧃",
+        "regions_with_label": {
+          "label_test1": [
+            [0.14703369140625, 0.16278211805555556],
+            [0.07437744140625, 0.2613932291666667],
+            [0.19468994140625, 0.36139322916666666],
+            [0.24312744140625, 0.25028211805555556],
+            [0.22359619140625, 0.16417100694444445],
+            [0.17906494140625, 0.25028211805555556]
+          ],
+          "label_test2": [
+            [0.24703369140625, 0.16278211805555556],
+            [0.07437744140625, 0.2613932291666667],
+            [0.24703369140625, 0.16278211805555556]
+          ],
+          "label_test3": [
+            [0.34703369140625, 0.26278211805555556],
+            [0.07437744140625, 0.2613932291666667]
+          ],
+          "label_test4": [
+            [0.30484619140625, 0.15861545138888888],
+            [0.21890869140625, 0.3308376736111111],
+            [0.29547119140625, 0.36278211805555555],
+            [0.37125244140625, 0.36278211805555555],
+            [0.37047119140625, 0.2613932291666667]
+          ],
+          "label_test5": [
+            [0.44703369140625, 0.46278211805555556],
+            [0.27437744140625, 0.7613932291666667]
+          ]
+        },
+        "regions": [
+          [
+            [0.14703369140625, 0.16278211805555556],
+            [0.07437744140625, 0.2613932291666667],
+            [0.19468994140625, 0.36139322916666666],
+            [0.24312744140625, 0.25028211805555556],
+            [0.22359619140625, 0.16417100694444445],
+            [0.17906494140625, 0.25028211805555556]
+          ],
+          [
+            [0.24703369140625, 0.16278211805555556],
+            [0.07437744140625, 0.2613932291666667],
+            [0.24703369140625, 0.16278211805555556]
+          ],
+          [
+            [0.34703369140625, 0.26278211805555556],
+            [0.07437744140625, 0.2613932291666667]
+          ],
+          [
+            [0.30484619140625, 0.15861545138888888],
+            [0.21890869140625, 0.3308376736111111],
+            [0.29547119140625, 0.36278211805555555],
+            [0.37125244140625, 0.36278211805555555],
+            [0.37047119140625, 0.2613932291666667]
+          ],
+          [
+            [0.44703369140625, 0.46278211805555556],
+            [0.27437744140625, 0.7613932291666667]
+          ]
+        ],
+        "regions_test": [
+          [
+            [0.34703369140625, 0.26278211805555556],
+            [0.07437744140625, 0.2613932291666667]
+          ]
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": "Tracking_v2",
+      "name": "Tracking_v2_5",
+      "runner": "default"
+    },
+    {
+      "id": 6,
+      "type": "Graphics_v2",
+      "name": "Graphics_v2_6",
+      "runner": "Graphics",
+      "props": { "ttf_file": "/home/ttf/NotoSans-Regular.ttf" }
+    },
+    {
+      "id": 7,
+      "type": "Report_v2",
+      "name": "Report_v2_7",
+      "runner": "Report",
+      "props": { "report_url": "", "save_raw": true }
+    },
+    {
+      "id": 8,
+      "type": "Bridge_v2",
+      "name": "Bridge_v2_8",
+      "runner": "Brigde",
+      "props": { "enable": false }
+    },
+    {
+      "id": 9,
+      "type": "VideoEncode_v2",
+      "name": "VideoEncode_v2_9",
+      "runner": "Brigde",
+      "props": { "output_stream_url": "" }
+    },
+    {
+      "id": 10,
+      "type": "BoxFilter_v2",
+      "name": "BoxFilter",
+      "runner": "Bridge",
+      "props": {
+        "min_width": 0,
+        "max_width": 4096,
+        "min_height": 0,
+        "max_height": 4096,
+        "min_area": 0,
+        "max_area": 8847360,
+        "min_count": 0,
+        "max_count": 2147483647,
+        "box_labels": ["reflective_vest", "Non_reflective_vest"]
+      }
+    }
+  ],
+  "pipe": [
+    [0, 0, 1, 0],
+    [0, 1, 1, 1],
+    [1, 1, 2, 0],
+    [2, 0, 3, 0],
+    [3, 0, 4, 0],
+    [4, 0, 5, 0],
+    [5, 0, 6, 0],
+    [6, 0, 7, 0],
+    [4, 0, 8, 0],
+    [8, 0, 9, 0],
+    [4, 0, 10, 0]
+  ]
+}
